@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html >
+<html lang="ru">
+<head>
+	<title>{{ site_appearence.site_title}}</title>
+	{% include "includes/head_for_all.html" %}
+	<link href="/static/styles/scroll.css?s032" rel="stylesheet">
+	<link rel="stylesheet" media="screen and (min-width: 770px)" href="/static/styles/glavnaia.css?s032">
+	<link rel="stylesheet" media="screen and (max-width: 770px)" href="/static/styles/glavnaia_mob.css?s032">
+</head>
+
+<body>
+	{% include 'includes/main_menu.html'%}
+    {#scroll_button[] #}
+
+	<div class="main_content">
+		<h1><b>{{ site_appearence.site_title|upper }}</b></h1>
+
+		<div class="about">
+			<p><b>Привет! <br> Меня зовут Маша Куклина.</b> <br>
+				Я начала фотографировать в 2017 году,
+				когда уехала из своего родного города Иркутска учиться.
+				Как-то так сложилось, что большего удовольствия, чем гулять по улицам,
+				слушать музыку и фотографировать, я для себя пока не нашла :)
+			</p>
+
+            <img src="{% static "/dis/or3.jpg" %}">
+
+			<p> Я не могу сказать, что мне нравится делать снимки чего-то определенного,
+				или, что у меня есть какой-то свой стиль.
+				Проще перечислить, как и что я не люблю
+				фотографировать, но такого - по пальцам персчитать.<br>
+				В общем, будь моя воля, изъездила бы всю Россию и переслушала
+				бы всю клёвую музыку, снимая всё вокруг!
+			</p>
+
+            <img src="{% static '/dis/or1.jpg' %}">
+
+			<p>Сайт существует с 2022 года. создан исключительно усилиями моего папы и меня.
+				посвящен моим фотографиям.<br>
+				Задачи. основная: показывать красоту и всякое большое важное
+				или маленькое неважное.
+				вторичные: изучение создания сайта с нуля! и продажа моих работ. когда-нибудь, да.
+			</p>
+
+            <img src="{% static '/dis/or2.jpg' %}">
+
+		</div>
+	</div>
+
+	{% include 'includes/footer.html' %}
+
+</body>
+</html>

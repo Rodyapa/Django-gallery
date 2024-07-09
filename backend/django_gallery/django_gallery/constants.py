@@ -1,0 +1,1 @@
+MAX_CHAR_FIELD = 128
