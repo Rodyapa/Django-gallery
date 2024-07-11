@@ -16,6 +16,9 @@
                             </li>
                             {% endwith %}
                     {% endfor %}
+                {% for album in best_albums %}
+                    <li><span><a href="{% url 'albums:album' album_slug=album.slug %}">{{ album.title | upper }}</a></span>
+                {% endfor %}
                 <li><a href="{% url 'static_site:contacts'%}">Контакты</a></li>
             </ul>
         </div>

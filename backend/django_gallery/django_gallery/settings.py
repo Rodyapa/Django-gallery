@@ -70,7 +70,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.site_appearance',
                 'static_site.context_processors.contacts',
-                'albums.context_processors.sections'
+                'albums.context_processors.sections',
+                'albums.context_processors.best_albums'
             ],
         },
     },

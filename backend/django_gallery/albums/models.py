@@ -66,6 +66,11 @@ class Album(models.Model):
         default=True,
         verbose_name='Is published',
         help_text='If selected, album will be seen on the site.')
+    is_in_main_menu = models.BooleanField(
+        default=False,
+        verbose_name=_('Is on main menu'),
+        help_text=_('If selected, album will be in the main toolbar.')
+    )
     section = models.ForeignKey(
         verbose_name='Section',
         to=Section,
@@ -90,12 +95,12 @@ class Album(models.Model):
                     )}
                 )
         else:  # else slug will be a title of album and random integer
-            slug_text = slugify(self.slug)
+            slug_text = slugify(self.title)
             count_redefine_slug = 0
             while Album.objects.filter(slug=slug_text):
                 if count_redefine_slug == 5:  # To stop endless while.
                     break
-                slug_text = slugify(f'{self.slug}{randint(0,9999)}')
+                slug_text = slugify(f'{self.title}{randint(0,9999)}')
                 count_redefine_slug += 1
         self.slug = slug_text
         super().clean()
