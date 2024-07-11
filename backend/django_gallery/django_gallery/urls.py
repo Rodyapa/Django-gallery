@@ -16,11 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from admin_site import admin_staff_site
+from admin_site.admin import admin_staff_site
 from static_site import views
-
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
-    # path('staff/', admin_staff_site.urls, name='staff'),
+    path('staff/', admin_staff_site.urls, name='staff'),
     path("", include("static_site.urls")),
-]   
+    path("album/", include("albums.urls"))
+] + static(
+        settings.STATIC_URL,
+        document_root=settings.STATIC_ROOT
+        )

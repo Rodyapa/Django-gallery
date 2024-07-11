@@ -1,0 +1,27 @@
+{% load static%}
+<!DOCTYPE html >
+<html lang="ru">
+	<head>
+	<title>Контакты</title>
+	{% include "includes/head_for_all.html" %}
+	<link rel="stylesheet" media="screen and (min-width: 770px)" href="{% static '/styles/contacts.css' %}" rel="stylesheet">
+	<link rel="stylesheet" media="screen and (max-width: 770px)" href="{% static '/styles/contacts_mob.css' %}" rel="stylesheet">
+</head>
+
+	<body>
+		{% include "includes/main_menu.html"%}
+
+		<h1>Контакты</h1>
+		<div class="contacts">
+			<a href="{{ site_appearance.vk_link }}" target="blank"><img src="{% static '/dis/fa-vk.png'%}" alt="" width="14"> Страница ВК </a>
+			<a href="{{ site_appearance.inst_link }}" target="blank"><img src="{% static '/dis/fa-instagram.png' %}" alt="" width="14"> Профиль в Instagram</a>
+			<a href="{{ site_appearance.tg_link }}" target="blank"><img src="{% static '/dis/fa-telegram.png'%}" alt="" width="14"> Телеграм</a>
+			{% for description, link in contact_links.items %}
+				<a href="{{ link }}" target="blank"> {{ description }}</a>
+			{% endfor %}
+			
+			<img class="other" src="{% static '/dis/face_contacts.jpg' %}" alt="">
+		</div>
+
+	</body>
+</html>

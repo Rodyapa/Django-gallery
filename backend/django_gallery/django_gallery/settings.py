@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'images.apps.ImagesConfig',
     'site_config.apps.SiteConfigConfig',
     'admin_site.apps.AdminSiteConfig',
-    'core.apps.CoreConfig'
+    'core.apps.CoreConfig',
+    'static_site.apps.StaticSiteConfig'
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'django_gallery.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates/',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,7 +68,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'core.context_processors.site_appearance'
+                'core.context_processors.site_appearance',
+                'static_site.context_processors.contacts',
+                'albums.context_processors.sections'
             ],
         },
     },
@@ -122,6 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+else:    
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

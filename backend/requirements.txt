@@ -5,8 +5,8 @@ django-admin-sortable2==2.1.10
 django-debug-toolbar==4.3.0
 django-dragndrop-related==0.3.0
 django-environ==0.11.2
-mysql==0.0.3
-mysqlclient==2.2.4
+# mysql==0.0.3
+# mysqlclient==2.2.4
 pillow==10.2.0
 python-dotenv==1.0.1
 python-slugify==8.0.4

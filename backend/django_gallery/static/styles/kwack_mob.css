@@ -1,0 +1,46 @@
+html,
+body {
+	height: 100%;
+}
+
+body::before {
+    content: '';
+    position: fixed; /* Фиксируем на одном месте */
+    left: 0; right: 0; /* Вся ширин */
+    top: 0; bottom: 0; /* Вся высота */
+    z-index: -1; /* Фон ниже текста */
+    /* Параметры фона */
+    background-color: rgb(255, 255, 255);
+    filter: blur(0px); /* Размытие */
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+h1 {
+	text-align: center;
+    margin-top: 20px;
+    background-color: rgb(175, 247, 180);
+}
+
+.about {
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.about p {
+	text-align: justify;
+    line-height: 1.5;
+    max-width: 90%;
+    background-color: white;
+    margin: 5px;
+    padding: 25px;
+    border: 15px solid black;
+}
+
+.about img {
+    max-width: 90%;
+}

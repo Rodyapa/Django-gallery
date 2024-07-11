@@ -1,0 +1,147 @@
+/****Стили общие для всего сайта*****/
+
+body {
+	color: black;
+	font-family: 'Prosto One', cursive;
+}
+
+html,
+body,
+a,
+div,
+p,
+ul,
+ol,
+li,
+img,
+span {
+	margin: 0;
+	padding: 0;
+	color: #000000;
+}
+
+* {
+	box-sizing: border-box;
+	scrollbar-width: thin;
+}
+
+/****end Стили общие для всего сайта*****/
+
+/*****mob3_menu.css*******/
+
+.menu-icon {
+	position: fixed;
+	top: 0px;
+	width: 56px;
+	height: 56px;
+	font-size: 1.5rem;
+	line-height: 1.5rem;
+	padding: 1rem;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 4000;
+	background-repeat: no-repeat;
+}
+
+.menu-icon:hover {
+	background-color: #E6E6E6;
+	z-index: 5200;
+}
+
+.menu-menu {
+	left: 4px;
+	background-image: url(/dis/List.svg);
+	background-position: center;
+}
+
+.menu-overlay {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.5);
+	z-index: 5050;
+}
+
+.menu-positioner {
+	position:fixed;
+	touch-action: none;
+	left: 0;
+	top: 0;
+	width: 0;
+	height: 100%;
+	z-index: 5100;
+}
+
+.menu-wrapper {
+	position:absolute;
+	touch-action: none;
+	right: -16px;
+	top: 0;
+	width: 80vw;
+	/*border-right: dotted 1px rgb(220, 20, 20);*/
+	min-height: 100%;
+	height: max-content;
+}
+
+.menu-wrapper_animate {
+	transition: top .2s linear, left .4s ease;
+}
+
+.menu-container {
+	touch-action: none;
+	background-color: white;
+	margin-right: 16px;
+	width: 100%;
+	min-height: 100vh;
+}
+
+.menu-container > ul {
+	touch-action: none;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: start;
+	align-items: start;
+	padding: 0.5rem 16px 0.5rem 0;
+	background-color: white;
+	width: 100%;
+}
+
+.menu-container li {
+	list-style-type: none;
+	padding-left: 1rem;
+	width: 100%;
+	text-align: left;
+}
+
+.menu-container a,
+.menu-container span {
+	color: #000000;
+	font-size: 1.5rem;
+	display: block;
+	word-wrap: break-word;
+	padding: 0.7rem;
+	cursor: pointer;
+	background: #FFFFFF;
+	width: 100%;
+	height: 100%;
+}
+
+.menu-container span + ul {
+	display: none;
+	transition: top .5s linear, left .4s ease;
+}
+
+.menu-container a:hover,
+.menu-container span:hover {
+	background-color: #E6E6E6;
+}
+
+.menu-container span::after {
+	content: "▼";
+}
+
+/*******end mob3_menu.css*******/

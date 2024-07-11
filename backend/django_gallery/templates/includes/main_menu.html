@@ -6,38 +6,17 @@
     <div class="menu-wrapper menu-wrapper_animate">
         <div class="menu-container">
             <ul>
-                <li><a href="{% url 'pillow_testing:index'%}">Главная</a></li>
-                {% for nav_bar_item in nav_bar_items %}
-                {% if nav_bar_item.category == 'Избранное' %}
-                    {% for albumset in  nav_bar_item.albumsets %}
-                        {% for album in albumset.albums%}
-                            <li><a href='/album/{{album.album_slug}}'>{{ nav_bar_item.category}}</a></li>
-                        {% endfor %}
+                <li><a href="{% url 'static_site:index'%}">Главная</a></li>
+                    {% for highest_section, daughter_sections in sections.items %}        
+                        {%with dict=daughter_sections template="includes/treedict.html"%}
+                            <li><span>{{ highest_section | upper }}</span>
+                            <ul>
+                                {% include template %}
+                            </ul>
+                            </li>
+                            {% endwith %}
                     {% endfor %}
-                    
-                {% else %}
-                <li><span>{{ nav_bar_item.category }}</span>
-                    <ul>
-                        {% for albumset in  nav_bar_item.albumsets %}  
-                            {% if  albumset.albums|length == 1 %}
-                                {% for album in albumset.albums%}
-                                    <li><a href='/album/{{album.album_slug}}'>{{ albumset.albumset.album_set_title}}</a></li>
-                                {% endfor %}
-                            {% else %}
-                                <li><span>{{ albumset.albumset.album_set_title }} </span>
-                                    <ul>
-                                        {% for album in albumset.albums%}
-                                        <li><a href='/album/{{album.album_slug}}'>{{ album.album_title}}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                            {% endif %}
-                        {% endfor%}
-                    </ul>
-                </li>
-                {% endif%}
-                {% endfor %}
-                <li><a href="{% url 'pillow_testing:contacts'%}">Контакты</a></li>
+                <li><a href="{% url 'static_site:contacts'%}">Контакты</a></li>
             </ul>
         </div>
     </div>

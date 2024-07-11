@@ -1,0 +1,48 @@
+p {
+    text-align: center;
+}
+
+h1 {
+	text-align: center;
+    margin-top: 70px;
+    color: white;
+    background: url(/static/dis/fon_h.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h2 {
+	text-align: center;
+    margin-top: 30px;
+    padding: 0;
+    color: white;
+    background: url(/static/dis/fon_h.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.C {
+    border: 2px solid rgb(126, 126, 126); /* Рамка вокруг фотографии */
+    padding: 9px; /* Расстояние от картинки до рамки */
+    background: #ffffff; /* Цвет фона */
+    margin-right: 0px; /* Отступ справа */
+    margin-left: 40px;
+    margin-bottom: 0px; /* Отступ снизу */
+    margin-top: 10px;
+}
+
+.small img {
+    max-width: 200px;
+}
+
+.little img {
+    max-width: 300px;
+}
+
+.middle img{
+    max-width: 400px;
+}
+
+.big img{
+    max-width: 550px;
+}

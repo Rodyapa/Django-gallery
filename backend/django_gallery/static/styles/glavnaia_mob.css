@@ -1,0 +1,48 @@
+html,
+body {
+	height: 100%;
+}
+
+body::before {
+    content: '';
+    position: fixed; /* Фиксируем на одном месте */
+    left: 0; right: 0; /* Вся ширин */
+    top: 0; bottom: 0; /* Вся высота */
+    z-index: -1; /* Фон ниже текста */
+    /* Параметры фона */
+    background: url(/static/dis/bg_glavnaia.jpg);
+    filter: blur(0px); /* Размытие */
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-top: 60px;
+    background-position: center;
+}
+
+h1 {
+	text-align: center;
+    margin-top: 70px;
+    background-color: white;
+}
+
+.about {
+    max-width: 900px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.about p {
+	text-align: justify;
+    line-height: 1.5;
+    max-width: 310px;
+    background-color: white;
+    margin: 5px;
+    padding: 25px;
+}
+
+.about img {
+    max-width: 300px;
+    height: 100%;
+}

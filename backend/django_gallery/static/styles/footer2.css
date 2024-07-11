@@ -1,0 +1,31 @@
+.footer {
+    background: linear-gradient(white, grey);
+}
+
+.footer .grid {
+    padding: 4rem 0 3rem;
+}
+
+.footer__container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-basis: 30%;
+}
+
+.flex-item {
+    width: 30%;
+    margin: 5px;
+}
+
+@media (max-width: 640px) {
+    .footer .grid {
+      padding: 4rem 4rem 4.5rem;
+    }
+}
+
+  .footer__copyright {
+    font-size: 0.8rem;
+    color: rgb(3, 3, 3);
+    margin-top: 0.4rem;
+}

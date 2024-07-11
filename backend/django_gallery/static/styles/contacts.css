@@ -1,0 +1,43 @@
+h1 {
+	text-align: center;
+    margin-top: 70px;
+    background-color: white;
+}
+
+body::before {
+    content: '';
+    position: fixed; /* Фиксируем на одном месте */
+    left: 0; right: 0; /* Вся ширин */
+    top: 0; bottom: 0; /* Вся высота */
+    z-index: -1; /* Фон ниже текста */
+    /* Параметры фона */
+    background: url(/static/dis/fon_contacts.jpg);
+    filter: blur(0px); /* Размытие */
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 600px;
+}
+
+.contacts {
+    max-width: 300px;
+    margin-left: 250px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.contacts a {
+    color: black;
+    background-color: white;
+    text-align: right;
+    text-decoration: none;
+}
+
+.contacts img{
+    max-width: 300px;
+    margin-top: 10px;
+}
+
+.contacts a:hover{
+    background-color: rgba(216, 216, 216, 0.68);
+}

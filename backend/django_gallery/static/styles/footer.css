@@ -1,0 +1,23 @@
+.footer {
+    background: rgb(126, 126, 126);
+    color: rgb(255, 255, 255);
+}
+
+.footer .grid {
+    padding: 4rem 0 4.5rem;
+}
+@media (max-width: 640px) {
+    .footer .grid {
+      padding: 4rem 4rem 4.5rem;
+    }
+}
+
+  .footer__copyright {
+    font-size: 1.2rem;
+    color: rgb(255, 255, 255);
+    margin-top: 2rem;
+}
+
+  .footer__menu {
+    font-size: 1.8rem;
+}

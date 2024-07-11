@@ -1,0 +1,25 @@
+{% for key,val in dict.items %}
+    {% if val.items %}  
+    <li><span>{{ key.title | upper }}</span>
+    <ul>
+        {%with dict=val template="includes/treedict.html" %}
+            {%include template%}
+        {%endwith%}
+    </ul>
+    </li>
+    {% else %}
+        {% if val|length != 0%}
+            <li><span>{{ key.title | upper }}</span>
+                <ul>
+                    {% for album in val %}
+                        <li> {{ album }} </li>
+                        <a href="{% url 'albums:album' album_slug=album.slug %}">
+                            {{ album.title }}</a>
+                    {% endfor%}
+                </ul>
+            </li>
+        {% else %}
+            <li>{{ key.title | upper }}
+        {% endif %}
+    {% endif %}
+{% endfor %}

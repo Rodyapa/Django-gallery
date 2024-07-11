@@ -1,0 +1,11 @@
+body {
+    text-align: center;
+    color:black;
+    font-family: 'Prosto One', cursive;
+}
+
+a:visited,
+a {
+    color: black;
+    text-decoration: none;
+}
