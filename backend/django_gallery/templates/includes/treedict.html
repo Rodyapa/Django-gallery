@@ -1,25 +1,21 @@
-{% for key,val in dict.items %}
-    {% if val.items %}  
-    <li><span>{{ key.title | upper }}</span>
-    <ul>
-        {%with dict=val template="includes/treedict.html" %}
-            {%include template%}
-        {%endwith%}
-    </ul>
-    </li>
-    {% else %}
-        {% if val|length != 0%}
-            <li><span>{{ key.title | upper }}</span>
-                <ul>
-                    {% for album in val %}
-                        <li> {{ album }} </li>
-                        <a href="{% url 'albums:album' album_slug=album.slug %}">
-                            {{ album.title }}</a>
-                    {% endfor%}
-                </ul>
-            </li>
+{% with  section_albums=dict.section_albums daughter_sections=dict.daughter_sections %}
+    {% for album in section_albums%}
+        <li>  
+        <a href="{% url 'albums:album' album_slug=album.slug %}">
+            {{ album.title | upper }}</a>
+        </li>
+    {% endfor %}
+        {% for daughter_section, nested in daughter_sections.items %}
+        {% if nested.section_albums|length == 0 and nested.daughter_sections|length == 0%}
+        <li>{{ daughter_section.title | upper }}
         {% else %}
-            <li>{{ key.title | upper }}
+        <li><span>{{ daughter_section.title | upper }}</span>
         {% endif %}
-    {% endif %}
-{% endfor %}
+            <ul>
+            {%with dict=nested template="includes/treedict.html" %}
+                {%include template%}
+            {%endwith%}
+            </ul>
+        </li>
+        {% endfor%}
+    {% endwith %}

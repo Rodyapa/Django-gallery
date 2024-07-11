@@ -7,8 +7,8 @@
         <div class="menu-container">
             <ul>
                 <li><a href="{% url 'static_site:index'%}">Главная</a></li>
-                    {% for highest_section, daughter_sections in sections.items %}        
-                        {%with dict=daughter_sections template="includes/treedict.html"%}
+                    {% for highest_section, daughter_sections_and_albums in sections.items %}        
+                        {%with dict=daughter_sections_and_albums template="includes/treedict.html"%}
                             <li><span>{{ highest_section | upper }}</span>
                             <ul>
                                 {% include template %}
