@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'site_config.apps.SiteConfigConfig',
     'admin_site.apps.AdminSiteConfig',
     'core.apps.CoreConfig',
-    'static_site.apps.StaticSiteConfig'
+    'static_site.apps.StaticSiteConfig',
 ]
 
 MIDDLEWARE = [
@@ -71,7 +71,7 @@ TEMPLATES = [
                 'core.context_processors.site_appearance',
                 'static_site.context_processors.contacts',
                 'albums.context_processors.sections',
-                'albums.context_processors.best_albums'
+                'albums.context_processors.best_albums',
             ],
         },
     },

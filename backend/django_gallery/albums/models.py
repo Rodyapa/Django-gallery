@@ -23,7 +23,7 @@ class Section(models.Model):
     is_the_highest_section = models.BooleanField(
         verbose_name=_('Is the highest section'),
         help_text=_('Determine if this section is the highest. '
-                   'The highest section cannot have parent_section.'),
+                    'The highest section cannot have parent_section.'),
         default=False
     )
     is_published = models.BooleanField(
@@ -88,7 +88,7 @@ class Album(models.Model):
     def clean(self):
         if self.section:  # if section provided it will written in slug
             slug_text = slugify(f'{self.section}_{self.title}')
-            if Album.objects.filter(slug=slug_text):
+            if Album.objects.filter(slug=slug_text,).exclude(id=self.id):
                 raise ValidationError(
                     {"title": _(
                         "Section cannot have albums with the same titles."
@@ -97,7 +97,7 @@ class Album(models.Model):
         else:  # else slug will be a title of album and random integer
             slug_text = slugify(self.title)
             count_redefine_slug = 0
-            while Album.objects.filter(slug=slug_text):
+            while Album.objects.filter(slug=slug_text).exclude(id=self.id):
                 if count_redefine_slug == 5:  # To stop endless while.
                     break
                 slug_text = slugify(f'{self.title}{randint(0,9999)}')
