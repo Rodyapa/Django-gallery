@@ -1,4 +1,5 @@
 
+
 document.addEventListener("DOMContentLoaded", () => {
     let inputElement;
     let listOfUploadedFiles;
@@ -10,22 +11,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const sizeLimits = {
       image: 40 * 1024 * 1024,
     };
+    const maxPhotoAmount = 30;
     const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
     const uploadedFiles = [];
   
   dropzone_container.addEventListener('click', (e) => {
       e.preventDefault();
-      deleteErrorMessage();
       if (e.target.matches('.cancel-button')) {
         let id_to_delete = e.target.dataset.fileId;
         removeImageFromUploadedFiles(id_to_delete)
       } else {
-        uploadFile();
+        uploadFiles();
       }
+      deleteErrorMessage();
+      ShowHideTextInstruction();
     });
   
 
-  function uploadFile() {
+  function uploadFiles() {
     if (!inputElement) {
       inputElement = document.createElement('input');
       inputElement.setAttribute('type', 'file');
@@ -44,19 +47,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       const files = inputElement.files;
       for (file of files) {
+        if (error) {
+          break
+        }
         startSDKWithFile(file);
-      
-      }
-      if (uploadedFiles.length !== 0) {
-        dropzone_text_instruction.style.display = 'none';
-
       }
     };
   }
   function startSDKWithFile(file) {
     if (!file) return;
     const maxSize = sizeLimits.image ?? 40 * 1024 * 1024;
-    if (validImageTypes.includes(file.type) && file.size <= maxSize) {
+    if (validImageTypes.includes(file.type) && file.size <= maxSize && uploadedFiles.length < maxPhotoAmount) {
       const reader = new FileReader();
       reader.readAsDataURL(file); // конвертирует Blob в base64 и вызывает onload
       reader.onload = function() {
@@ -68,8 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     } else if (!error) {
       let invalidInputError;
-      if (!validImageTypes.includes(file.type)) invalidInputError = 'invalid image type. Please make sure your image format is one of the following: "image/png", "image/jpeg", "image/jpg"';
-      else if (file.size > maxSize) invalidInputError = 'your image file is too large';
+      if (!validImageTypes.includes(file.type)){
+        invalidInputError = 'invalid image type. Please make sure your image format is one of the following: "image/png", "image/jpeg", "image/jpg"'}
+      else if (file.size > maxSize) {
+        invalidInputError = 'your image file is too large'}
+      else if (uploadedFiles.length >= maxPhotoAmount) {
+        invalidInputError = (`You can not download more than ${maxPhotoAmount} photos at once`)
+      };
 
       error = document.createElement('p');
       error.classList.add('error')
@@ -101,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function deleteErrorMessage() {
     if (error) {
       error.remove()
+      error = false
     };
   }
   function removeImageFromUploadedFiles(id_to_delete) {
@@ -117,6 +124,14 @@ document.addEventListener("DOMContentLoaded", () => {
     ).closest('li');
     if (elementToRemove) {
       elementToRemove.remove();
+    }
+  }
+  function ShowHideTextInstruction () {
+    if (uploadedFiles.length > 0) {
+      dropzone_text_instruction.style.display = 'none'; 
+    }
+    else {
+      dropzone_text_instruction.style.display = 'block'; 
     }
   }
 });

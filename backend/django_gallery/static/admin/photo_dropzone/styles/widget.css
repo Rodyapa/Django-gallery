@@ -44,4 +44,5 @@
 .dropzone-container .error {
     color: var(--error-fg);
     background-color: var(--breadcrumbs-bg);
+    font-size: 3em;
 }
