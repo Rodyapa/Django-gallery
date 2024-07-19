@@ -1,0 +1,9 @@
+<svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <ellipse opacity="0.24" ry="280" rx="280" id="svg_1" cy="300" cx="300" stroke="#a5a5a5" fill="#b7bcbc"/>
+  <line transform="rotate(16.1552, 212.866, 371.186)" stroke-width="60" id="svg_3" y2="405.32412" x2="300" y1="337.04826" x1="125.73295" stroke="#a5a5a5" fill="none"/>
+  <line id="svg_6" y2="158.4751" x2="467.79681" y1="432.20422" x1="245.76265" stroke-width="60" stroke="#a5a5a5" fill="none"/>
+ </g>
+
+</svg>

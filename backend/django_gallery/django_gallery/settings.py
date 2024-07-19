@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'admin_site.apps.AdminSiteConfig',
     'core.apps.CoreConfig',
     'static_site.apps.StaticSiteConfig',
+    'django.forms'
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'django_gallery.urls'
-
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

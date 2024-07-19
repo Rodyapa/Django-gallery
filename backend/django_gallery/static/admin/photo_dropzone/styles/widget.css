@@ -1,0 +1,47 @@
+.dropzone-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 5em;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgb(18, 18, 18);
+    background-color: var(--button-bg);
+    color: var(--header-link-color);
+    cursor: pointer;
+}
+.list-of-uploaded_files {
+    margin: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+.uploaded-file-miniature {
+    width: 120px;
+    height: 120px;
+    margin:1rem;
+    position: relative;
+}
+.uploaded-file-miniature img {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover;
+    border-radius: 10px;
+}
+.uploaded-file-miniature img.cancel-button {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 50%; /* Adjust as needed */
+    transform: translateX(-50%);
+    z-index: 1; /* Ensure the cancel button appears above the main image */
+    transition: opacity 0.3s ease;
+}
+.uploaded-file-miniature img.cancel-button:hover {
+    opacity: 1;
+    backdrop-filter: blur(2px);
+}
+
+.dropzone-container .error {
+    color: var(--error-fg);
+    background-color: var(--breadcrumbs-bg);
+}

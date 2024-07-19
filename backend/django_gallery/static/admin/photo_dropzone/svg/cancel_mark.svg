@@ -1,0 +1,9 @@
+<svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <ellipse opacity="0.24" ry="280" rx="280" id="svg_1" cy="300" cx="300" stroke="#a5a5a5" fill="#b7bcbc"/>
+  <line id="svg_8" y2="460" x2="460" y1="140" x1="140" stroke-width="60" stroke="#a5a5a5" fill="none"/>
+  <line id="svg_11" y2="140" x2="460" y1="460" x1="140" stroke-width="60" stroke="#a5a5a5" fill="none"/>
+ </g>
+
+</svg>

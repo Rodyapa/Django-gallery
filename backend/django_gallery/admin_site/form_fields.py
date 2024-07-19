@@ -7,6 +7,13 @@ from django.template.loader import get_template
 
 class MultipleImageInput(forms.ClearableFileInput):
     allow_multiple_selected = True
+    template_name = 'django/forms/widgets/photo_dropzone.html'
+
+    class Media:
+        css = {
+            "all": ["admin/photo_dropzone/styles/widget.css", ],
+        }
+        js = ['admin/photo_dropzone/js/widget_events.js', ]
 
 
 class MultipleImageField(forms.FileField):
