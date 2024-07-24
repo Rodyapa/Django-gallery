@@ -10,9 +10,9 @@
         uploadButton.addEventListener('click', sendForm);
         const csrftoken = getCookie('csrftoken');
         let sending = false;
-        let form = new FormData(document.querySelector('form[id="album_form"]'));
 
         async function sendForm() {
+          let form = new FormData(document.querySelector('form[id="album_form"]'));
           if (sending) {
             alert ('УЖЕ ГРУЗИТСЯ');
             return;
