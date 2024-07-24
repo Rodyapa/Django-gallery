@@ -2,7 +2,7 @@ from typing import Any
 from django.contrib import admin
 from django.conf import settings
 from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.urls.resolvers import URLPattern
 from albums.models import Section, Album
 from images.models import Photo
@@ -22,7 +22,7 @@ admin_staff_site = StaffSite(name='staffadmin')
 
 
 class AlbumInline(admin.StackedInline):
-    model=Album
+    model = Album
     extra = 0
     fields = ['title']
     show_change_link = True
@@ -67,16 +67,34 @@ class AlbumAdmin(admin.ModelAdmin):
 
     def upload_photo_to_album_view(self, request,
                                    object_id=None, extra_context=None):
-        '''View that procede photo uploading.'''
+        '''View that procede photo uploading.
+        This view procede single photo uploading
+        '''
+
         context = dict(
             self.admin_site.each_context(request),
         )
         if object_id != 'None':
-            album_object = Album.objects.get(id=object_id)
+            album = Album.objects.get(id=object_id)
         if request.method == "POST":
-            form = AlbumForm(request.POST, request.FILES, instance=album_object)
+            form = AlbumForm(request.POST, request.FILES, instance=album)
             form_validated = form.is_valid()
             if form_validated:
-                name_of_files = ', '.join([file.name for file in form.cleaned_data.get('upload_photos')])
-                return HttpResponse(name_of_files)
-        return HttpResponse('endpoint work inccorectly')
+                '''import time
+                time.sleep(5)'''
+                uploaded_file = form.cleaned_data.get('upload_photos')[0]
+                try:
+                    new_photo = Photo.objects.create(image=uploaded_file,
+                                                     album=album)
+                    response = {'success': True,
+                                'error': None}
+                    response_status = 200
+                except:
+                    response = {'success': False,
+                                'error': 'Error when uploading photo on server'}
+                    response_status = 500
+        else:
+            response = {'success': False,
+                        'error': f'{request.method} Method not allowed'}
+            response_status = 405
+        return JsonResponse(response, status=response_status)

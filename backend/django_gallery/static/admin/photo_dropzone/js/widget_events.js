@@ -1,8 +1,17 @@
+window.ExchangeHubV1 = {
+  'onUploadFiles':[],
+  'alreadyUploadedFilesIds': new Set()
+  };
 
+import {
+  deleteErrorMessage,
+  removeImageFromonUploadFiles,
+  removeImagePreviewElement,
+} from '/static/admin/photo_dropzone/js/functions.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     let inputElement;
-    let listOfUploadedFiles;
+    let listOfonUploadFiles;
     let error;
     let lastUsedId = 0;
     const dropzone_container = document.querySelector('div[class=dropzone-container]');
@@ -13,17 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     const maxPhotoAmount = 30;
     const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-    const uploadedFiles = [];
-  
   dropzone_container.addEventListener('click', (e) => {
       e.preventDefault();
       if (e.target.matches('.cancel-button')) {
         let id_to_delete = e.target.dataset.fileId;
-        removeImageFromUploadedFiles(id_to_delete)
+        removeImageFromonUploadFiles(id_to_delete)
       } else {
         uploadFiles();
       }
-      deleteErrorMessage();
+      deleteErrorMessage(error);
       ShowHideTextInstruction();
     });
   
@@ -40,13 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Handle file selection
     inputElement.onchange = () => {
-      if (!listOfUploadedFiles) {
-        listOfUploadedFiles = document.createElement('ul')
-        listOfUploadedFiles.classList.add('list-of-uploaded_files')
-        dropzone_text_instruction?.after(listOfUploadedFiles);
+      if (!listOfonUploadFiles) {
+        listOfonUploadFiles = document.createElement('ul')
+        listOfonUploadFiles.classList.add('list-of-uploaded_files')
+        dropzone_text_instruction?.after(listOfonUploadFiles);
       }
       const files = inputElement.files;
-      for (file of files) {
+      for (const file of files) {
         if (error) {
           break
         }
@@ -57,15 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
   function startSDKWithFile(file) {
     if (!file) return;
     const maxSize = sizeLimits.image ?? 40 * 1024 * 1024;
-    if (validImageTypes.includes(file.type) && file.size <= maxSize && uploadedFiles.length < maxPhotoAmount) {
+    if (validImageTypes.includes(file.type) && file.size <= maxSize && ExchangeHubV1.onUploadFiles.length < maxPhotoAmount) {
       const reader = new FileReader();
       reader.readAsDataURL(file); // конвертирует Blob в base64 и вызывает onload
       reader.onload = function() {
         let file_id = ++lastUsedId
         let fileIdTuple = {'id':file_id, 'file':file}
-        uploadedFiles.push(fileIdTuple);
-        console.log('Uploaded Files:', uploadedFiles);
-        makeUploadedFilePreview(data_url=reader.result, id=lastUsedId);
+        ExchangeHubV1.onUploadFiles.push(fileIdTuple);
+        console.log('Uploaded Files:', ExchangeHubV1.onUploadFiles);
+        makeUploadedFilePreview(reader.result, lastUsedId);
       };
     } else if (!error) {
       let invalidInputError;
@@ -73,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         invalidInputError = 'invalid image type. Please make sure your image format is one of the following: "image/png", "image/jpeg", "image/jpg"'}
       else if (file.size > maxSize) {
         invalidInputError = 'your image file is too large'}
-      else if (uploadedFiles.length >= maxPhotoAmount) {
+      else if (ExchangeHubV1.onUploadFiles.length >= maxPhotoAmount) {
         invalidInputError = (`You can not download more than ${maxPhotoAmount} photos at once`)
       };
 
@@ -84,54 +91,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   function makeUploadedFilePreview (data_url, id) {
-    const file_miniature = document.createElement('li');
+        const file_miniature = document.createElement('li');
         const file_miniature_div = document.createElement('div');
         const file_miniature_preview = document.createElement('img');
         const file_miniature_cancel_button = document.createElement('img');
 
         file_miniature_cancel_button.setAttribute('src', '/static/admin/photo_dropzone/svg/cancel_mark.svg');
         file_miniature_cancel_button.classList.add('cancel-button');
-        file_miniature_cancel_button.addEventListener('click', removeImageFromUploadedFiles);
-        file_miniature_cancel_button.setAttribute('data-file-id', id)
+        file_miniature_cancel_button.addEventListener('click', removeImageFromonUploadFiles);
+        file_miniature_cancel_button.setAttribute('data-file-id', id);
 
         file_miniature_preview.setAttribute('src', data_url);
         file_miniature_preview.classList.add('preview-image');
         file_miniature_div.classList.add('uploaded-file-miniature');
-        
+        file_miniature_div.setAttribute('data-file-id', id);
+
         file_miniature_div.appendChild(file_miniature_preview);
         file_miniature_div.appendChild(file_miniature_cancel_button);
         file_miniature.appendChild(file_miniature_div);
 
-        listOfUploadedFiles.appendChild(file_miniature);
+        listOfonUploadFiles.appendChild(file_miniature);
   };
-  function deleteErrorMessage() {
-    if (error) {
-      error.remove()
-      error = false
-    };
-  }
-  function removeImageFromUploadedFiles(id_to_delete) {
-    let indexToDelete = uploadedFiles.findIndex(obj => obj.id == id_to_delete);
-    if (indexToDelete !== -1) {
-      uploadedFiles.splice(indexToDelete, 1);
-      removeImagePreviewElement(id_to_delete);
-    }
-    console.log(uploadedFiles);
-  }
-  function removeImagePreviewElement(id_to_delete) {
-    let elementToRemove = document.querySelector(
-      'img.cancel-button[data-file-id="' + id_to_delete + '"]'
-    ).closest('li');
-    if (elementToRemove) {
-      elementToRemove.remove();
-    }
-  }
   function ShowHideTextInstruction () {
-    if (uploadedFiles.length > 0) {
+    if (ExchangeHubV1.onUploadFiles.length > 0) {
       dropzone_text_instruction.style.display = 'none'; 
     }
     else {
       dropzone_text_instruction.style.display = 'block'; 
     }
-  }
+  };
 });

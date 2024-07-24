@@ -33,14 +33,29 @@
     top: 0;
     left: 50%; /* Adjust as needed */
     transform: translateX(-50%);
-    z-index: 1; /* Ensure the cancel button appears above the main image */
+    z-index: 2; /* Ensure the cancel button appears above the main image */
     transition: opacity 0.3s ease;
 }
 .uploaded-file-miniature img.cancel-button:hover {
     opacity: 1;
     backdrop-filter: blur(2px);
 }
-
+.uploaded-file-miniature img.accepted-mark {
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0%;
+    z-index: 3;
+    transition: opacity 0.3s ease;
+}
+.uploaded-file-miniature img.failed-mark {
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0%;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+}
 .dropzone-container .error {
     color: var(--error-fg);
     background-color: var(--breadcrumbs-bg);

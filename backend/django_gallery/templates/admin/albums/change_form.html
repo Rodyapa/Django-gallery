@@ -2,21 +2,49 @@
 
 {% block extrahead %}
 {{ block.super }}
-<script>
+<script type='module'>
+    import {showResultMarkOnPreview} from '/static/admin/photo_dropzone/js/functions.js';
+
     document.addEventListener("DOMContentLoaded", function() {
         const uploadButton = document.querySelector('input[name="_upload_photos"]');
-        async function showAlert() {
-          let form = new FormData(document.querySelector('form[id="album_form"]'));
-          const csrftoken = getCookie('csrftoken');
-          //form.append('csrfmiddlewaretoken', csrftoken);
+        uploadButton.addEventListener('click', sendForm);
+        const csrftoken = getCookie('csrftoken');
+        let sending = false;
+        let form = new FormData(document.querySelector('form[id="album_form"]'));
+
+        async function sendForm() {
+          if (sending) {
+            alert ('УЖЕ ГРУЗИТСЯ');
+            return;
+          }
+          else {
+            sending = true;
+            for (const {id, file} of ExchangeHubV1.onUploadFiles) {
+              form.set('upload_photos', file);
+              let response = await sendFormWithSingleFile(form);
+              if (response.ok) {
+                let answer = response.text();
+                ExchangeHubV1.alreadyUploadedFilesIds.add(id);
+                showResultMarkOnPreview(id);
+                console.log(answer);
+              } else {
+                console.log(`файл не загружен ${file.name}`)
+                showResultMarkOnPreview(id, false);
+              }
+            }
+            ExchangeHubV1.onUploadFiles = ExchangeHubV1.onUploadFiles.filter(
+              x => !ExchangeHubV1.alreadyUploadedFilesIds.has(x.id) );
+
+            sending = false;
+            }
+        };
+        async function sendFormWithSingleFile (form) {
           let response = await fetch('/staff/albums/album/{{ object_id }}/upload_photos/', {
             method: 'POST',
             body: form
           });
-          console.log(response.text());
+          return response;
         }
-        
-        uploadButton.addEventListener('click', showAlert);
 
         function getCookie(name) {
           let cookieValue = null;
@@ -32,7 +60,7 @@
               }
           }
           return cookieValue;
-      }
+      };
         });
 
     

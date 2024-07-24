@@ -3,6 +3,17 @@ from django.utils.safestring import mark_safe
 from django.forms.renderers import TemplatesSetting
 from django.template import Context, Template
 from django.template.loader import get_template
+from django.utils.html import html_safe
+
+
+@html_safe
+class JSModulePath:
+    '''Implement html path to script with type="module".'''
+    def __init__(self, path):
+        self.path = path
+
+    def __str__(self):
+        return f'<script type ="module" src="/static/{self.path}"></script>'
 
 
 class MultipleImageInput(forms.ClearableFileInput):
@@ -13,7 +24,8 @@ class MultipleImageInput(forms.ClearableFileInput):
         css = {
             "all": ["admin/photo_dropzone/styles/widget.css", ],
         }
-        js = ['admin/photo_dropzone/js/widget_events.js', ]
+        js = [JSModulePath('admin/photo_dropzone/js/widget_events.js'),
+              ]
 
 
 class MultipleImageField(forms.FileField):

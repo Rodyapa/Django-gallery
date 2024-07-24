@@ -11,6 +11,8 @@ class Section(models.Model):
     title = models.CharField(
         max_length=MAX_CHAR_FIELD,
         verbose_name=_("Section's title"),
+        null=False,
+        blank=False
         )
     parent_section = models.ForeignKey(
         to='self',

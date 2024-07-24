@@ -38,7 +38,9 @@ class Photo(models.Model):
         to=Album,
         verbose_name=_("Album"),
         related_name="photos",
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True)
     '''
     drag_order = models.PositiveIntegerField(
         default=0, blank=False, null=False, db_index=True
