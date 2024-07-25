@@ -61,3 +61,6 @@
     background-color: var(--breadcrumbs-bg);
     font-size: 3em;
 }
+.highlighted-dashed-border {
+    border: 5px dashed purple;
+}
