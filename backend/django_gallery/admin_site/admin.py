@@ -46,6 +46,46 @@ class SectionAdmin(admin.ModelAdmin):
 @admin.register(Photo, site=admin_staff_site)
 class PhotoAdmin(admin.ModelAdmin):
     model = Photo
+    fields = [
+        "title",
+        "image_preview",
+        "image",
+        "date",
+        "is_published",
+        "album",
+    ]
+    readonly_fields = ['image_preview']
+    list_display = ['image_preview', "title", 'album']
+
+    def image_preview(self, obj):
+        return format_html('<img src="{}" class="image-preview"/>'.format(obj.image.url))
+    image_preview.short_description = 'image preview'
+
+    class Media:
+        css = {
+            "all": ["admin//styles/photo_preview.css", ],
+        }
+
+
+class PhotoInAlbumInline(admin.options.InlineModelAdmin):
+    model = Photo
+    template = 'admin/albums/edit_inlines/photo_mosaic.html'
+    extra = 0
+    fields = [
+        "title",
+        "image_preview",
+        "is_published",
+    ]
+    readonly_fields = ['image_preview']
+
+    class Media:
+        css = {
+            "all": ["admin//styles/photo_preview.css", ],
+        }
+
+    def image_preview(self, obj):
+        return format_html('<img src="{}" class="image-preview"/>'.format(obj.image.url))
+    image_preview.short_description = 'image preview'
 
 
 @admin.register(Album, site=admin_staff_site)
@@ -53,6 +93,7 @@ class AlbumAdmin(admin.ModelAdmin):
     model = Album
     readonly_fields = ['slug',]
     form = AlbumForm
+    inlines = [PhotoInAlbumInline,]
 
     def get_urls(self) -> list[URLPattern]:
         '''Add endpoint that procede photo uploading.'''

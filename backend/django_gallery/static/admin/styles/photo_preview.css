@@ -1,0 +1,28 @@
+th img.image-preview {
+    width: 70%;
+    max-width: 200px;
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure image takes up the entire width */
+    margin: 0 auto; /* Center the image horizontally */
+}
+.image-preview {
+    max-width: 100%;
+}
+.sorting-zone {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.photo-card {
+    max-width: 200px;
+    height: auto;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 30px;
+    position: relative;
+    background: var(--breadcrumbs-bg);
+}
+
+.photo-card .flex-container {
+    flex-direction: column;
+}
