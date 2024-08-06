@@ -7,9 +7,10 @@ from django.core.files.uploadedfile import (
     TemporaryUploadedFile,
 )
 from .utils import resize_uploaded_image, add_watermark
+from core.model_mixins import SortableMixin
 
 
-class Photo(models.Model):
+class Photo(SortableMixin):
 
     title = models.CharField(
         verbose_name=_("Title of Photo"),
@@ -41,16 +42,14 @@ class Photo(models.Model):
         on_delete=models.CASCADE,
         blank=True,
         null=True)
-    '''
-    drag_order = models.PositiveIntegerField(
+    order = models.PositiveIntegerField(
         default=0, blank=False, null=False, db_index=True
     )
-    '''
 
     class Meta:
         verbose_name = _("Photo")
         verbose_name_plural = _("Photos")
-        # ordering = ['drag_order',]
+        ordering = ['order',]
 
     def __str__(self):
         return str(self.title) if self.title else str(self.id)

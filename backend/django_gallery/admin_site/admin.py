@@ -12,6 +12,8 @@ from django.urls import reverse, path
 from django.template.response import TemplateResponse
 from .admin_forms import AlbumForm
 from django.shortcuts import get_object_or_404, render
+from django import forms
+
 
 class StaffSite(admin.AdminSite):
     site_header = f"{settings.SITE_TITLE} administration"
@@ -75,18 +77,30 @@ class PhotoInAlbumInline(admin.options.InlineModelAdmin):
         "title",
         "image_preview",
         "is_published",
+        "order",
     ]
-    readonly_fields = ['image_preview']
+    readonly_fields = ['image_preview',]
 
     class Media:
         css = {
             "all": ["admin//styles/photo_preview.css", ],
         }
-
+        js = ['admin/js/drag_sort.js',
+              ]
+    
     def image_preview(self, obj):
+        '''Add field of image preview to the html page.'''
         return format_html('<img src="{}" class="image-preview"/>'.format(obj.image.url))
     image_preview.short_description = 'image preview'
 
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        form = formset.form
+
+        # Set the 'order' field widget to HiddenInput
+        form.base_fields['order'].widget = forms.HiddenInput()
+
+        return formset
 
 @admin.register(Album, site=admin_staff_site)
 class AlbumAdmin(admin.ModelAdmin):

@@ -14,15 +14,31 @@ th img.image-preview {
     flex-direction: row;
 }
 .photo-card {
-    max-width: 200px;
+    width: 200px;
     height: auto;
+    min-height: 200px;
     padding: 1em;
     margin: 1em;
     border-radius: 30px;
     position: relative;
     background: var(--breadcrumbs-bg);
+    transition: 0.5s;
 }
 
+.dragged {
+    scale: 1.1;
+    background-color: var(--selected-row);
+}
+.drag-over {
+    background-color: var(--accent);
+}
+.sorting-ghost {
+  background-color: white;
+}
+
+.sorting-ghost >* {
+    display:none
+}
 .photo-card .flex-container {
     flex-direction: column;
 }
