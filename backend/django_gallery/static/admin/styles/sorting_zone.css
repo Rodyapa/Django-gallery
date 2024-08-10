@@ -42,3 +42,15 @@ th img.image-preview {
 .photo-card .flex-container {
     flex-direction: column;
 }
+
+.addtitional-divider {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+}
+.year-header {
+    text-align: center;
+    width: 100%;
+    background-color: var(--darkened-bg);
+}

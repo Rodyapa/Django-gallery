@@ -13,6 +13,7 @@ from django.template.response import TemplateResponse
 from .admin_forms import AlbumForm
 from django.shortcuts import get_object_or_404, render
 from django import forms
+from admin_site.form_fields import JSModulePath
 
 
 class StaffSite(admin.AdminSite):
@@ -28,6 +29,7 @@ class AlbumInline(admin.StackedInline):
     extra = 0
     fields = ['title']
     show_change_link = True
+
 
 @admin.register(Section, site=admin_staff_site)
 class SectionAdmin(admin.ModelAdmin):
@@ -65,7 +67,7 @@ class PhotoAdmin(admin.ModelAdmin):
 
     class Media:
         css = {
-            "all": ["admin//styles/photo_preview.css", ],
+            "all": ["admin/styles/sorting_zone.css", ],
         }
 
 
@@ -77,17 +79,19 @@ class PhotoInAlbumInline(admin.options.InlineModelAdmin):
         "title",
         "image_preview",
         "is_published",
+        "date",
         "order",
     ]
     readonly_fields = ['image_preview',]
 
     class Media:
         css = {
-            "all": ["admin//styles/photo_preview.css", ],
+            "all": ["admin//styles/sorting_zone.css", ],
         }
-        js = ['admin/js/drag_sort.js',
+        js = [JSModulePath('admin/js/drag_sort.js'),
+              JSModulePath('admin/photo_dropzone/js/dynamic_dropzone.js'),
               ]
-    
+
     def image_preview(self, obj):
         '''Add field of image preview to the html page.'''
         return format_html('<img src="{}" class="image-preview"/>'.format(obj.image.url))
@@ -99,8 +103,10 @@ class PhotoInAlbumInline(admin.options.InlineModelAdmin):
 
         # Set the 'order' field widget to HiddenInput
         form.base_fields['order'].widget = forms.HiddenInput()
+        form.base_fields['date'].widget = forms.HiddenInput()
 
         return formset
+
 
 @admin.register(Album, site=admin_staff_site)
 class AlbumAdmin(admin.ModelAdmin):
@@ -108,6 +114,11 @@ class AlbumAdmin(admin.ModelAdmin):
     readonly_fields = ['slug',]
     form = AlbumForm
     inlines = [PhotoInAlbumInline,]
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'template':
+            kwargs['empty_label'] = 'regular'
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_urls(self) -> list[URLPattern]:
         '''Add endpoint that procede photo uploading.'''

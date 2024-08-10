@@ -8,7 +8,7 @@ from django.core.files.uploadedfile import (
 )
 from .utils import resize_uploaded_image, add_watermark
 from core.model_mixins import SortableMixin
-
+from django.utils.timezone import now
 
 class Photo(SortableMixin):
 
@@ -30,6 +30,7 @@ class Photo(SortableMixin):
                     'it has appropriate meta data.'),
         blank=True,
         null=True,
+        default=now()
     )
     is_published = models.BooleanField(
         default=True,

@@ -15,15 +15,15 @@
 	{#{% include 'includes/scroll_button.html'%}#}
 
 	<h1>{{ album.title }}</h1>
-
-	<section>
-		<p class="first_best">
-			{% for photo in photos %}
-				<img src={{photo.image.url}} onclick="opener(this)" data-number="$x">
-			{% endfor%}
-		</p>
-	</section>
-
+    {% block content%}
+        <section>
+            <p class="first_best">
+                {% for photo in photos %}
+                    <img src={{photo.image.url}} onclick="opener(this)" data-number="$x">
+                {% endfor%}
+            </p>
+        </section>
+    {% endblock  %}
 	<div id="big_pic" class="picplace" onclick="closer(this)">
 		<img src="">
 	</div>

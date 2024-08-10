@@ -1,0 +1,13 @@
+{% extends "albums/base_album.html" %}
+{% block content %}
+    <section>
+            {% for year, photos_of_year in photos.items %}
+                <h2>{{ year }}</h2>
+                <p class="first_best">
+                {% for photo in photos_of_year %}
+                    <img src={{photo.image.url}} onclick="opener(this)" data-number="$x">
+                {% endfor %}
+            {% endfor%}
+        </p>
+    </section>
+{% endblock %}

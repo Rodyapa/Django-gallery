@@ -1,5 +1,8 @@
+window.photoSortingZone = {
+    'sorting_zone': null
+    };
 
-let sorting_zone = null
+export let sorting_zone = window.photoSortingZone['sorting_zone'];
 
 document.addEventListener("DOMContentLoaded", () => {
     sorting_zone = document.querySelector('.sorting-zone');
@@ -87,7 +90,7 @@ function sortPhotoCards(dragged_card, target_card, arrayOfCards) {
 
 };
 
-function getMostNestedElement(element) {
+export function getMostNestedElement(element) {
     let children = element.children;
     
     // Base case: If the element has no child, it is the most nested element

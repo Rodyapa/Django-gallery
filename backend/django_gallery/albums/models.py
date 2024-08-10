@@ -77,6 +77,13 @@ class Album(models.Model):
         verbose_name='Section',
         to=Section,
         on_delete=models.SET_NULL,
+        null=True,
+        related_name='albums'
+    )
+    template = models.ForeignKey(
+        verbose_name=_('Template'),
+        to="AlbumTemplate",
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
         related_name='albums'
@@ -108,4 +115,18 @@ class Album(models.Model):
         super().clean()
 
     def __str__(self):
+        return self.title
+
+
+class AlbumTemplate(models.Model):
+    TEMPLATE_NAMES = {
+        "year_sorted": _("year sorted")
+    }
+    title = models.CharField(
+        verbose_name=_('Title'),
+        max_length=MAX_CHAR_FIELD,
+        choices=TEMPLATE_NAMES
+    )
+
+    def __str__(self) -> str:
         return self.title
