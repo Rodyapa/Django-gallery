@@ -5,6 +5,7 @@ from images.models import Photo
 from django.views import View
 from datetime import date
 
+
 class AlbumView(View):
     def get(self, request, album_slug):
         album = get_object_or_404(Album, slug=album_slug)
@@ -44,4 +45,16 @@ class AlbumView(View):
                     else:
                         photos_by_year[str(today_year)] = [photo, ]
             return dict(sorted(photos_by_year.items(), reverse=True))
+        elif template_name == 'subdivided':
+            photos_by_subcategories = {'without_category': list(), }
+            for photo in photos:
+                photo_subcategory = photo.subcategory
+                if photo.subcategory:
+                    if photo_subcategory in photos_by_subcategories:
+                        photos_by_subcategories[photo_subcategory].append(photo)
+                    else:
+                        photos_by_subcategories[photo_subcategory] = [photo,]
+                else:
+                    photos_by_subcategories['without_category'].append(photo)
+            return photos_by_subcategories
         return photos

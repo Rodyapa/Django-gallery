@@ -1,0 +1,15 @@
+{% extends "albums/base_album.html" %}
+{% block content %}
+    <section>
+            {% for subcategory, photos_of_subcategory in photos.items %}
+            {% if subcategory != 'without_category'%}
+                <h2>{{ subcategory }}</h2>
+            {% endif %}
+                <p class="first_best">
+                {% for photo in photos_of_subcategory %}
+                    <img src={{photo.image.url}} onclick="opener(this)" data-number="$x">
+                {% endfor %}
+            {% endfor%}
+        </p>
+    </section>
+{% endblock %}

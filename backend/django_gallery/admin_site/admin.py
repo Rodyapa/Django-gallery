@@ -81,6 +81,7 @@ class PhotoInAlbumInline(admin.options.InlineModelAdmin):
         "is_published",
         "date",
         "order",
+        "subcategory"
     ]
     readonly_fields = ['image_preview',]
 
@@ -104,6 +105,7 @@ class PhotoInAlbumInline(admin.options.InlineModelAdmin):
         # Set the 'order' field widget to HiddenInput
         form.base_fields['order'].widget = forms.HiddenInput()
         form.base_fields['date'].widget = forms.HiddenInput()
+        form.base_fields['subcategory'].widget = forms.HiddenInput()
 
         return formset
 

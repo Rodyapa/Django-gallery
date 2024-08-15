@@ -120,12 +120,37 @@ class Album(models.Model):
 
 class AlbumTemplate(models.Model):
     TEMPLATE_NAMES = {
-        "year_sorted": _("year sorted")
+        "year_sorted": _("year sorted"),
+        "subdivided": _("subdivided")
     }
     title = models.CharField(
         verbose_name=_('Title'),
         max_length=MAX_CHAR_FIELD,
         choices=TEMPLATE_NAMES
+    )
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class AlbumSubcategory(models.Model):
+    title = models.CharField(
+        max_length=MAX_CHAR_FIELD,
+        verbose_name=_("Subcategory's title"),
+        null=False,
+        blank=False
+        )
+    album = models.ForeignKey(
+        to=Album,
+        on_delete=models.CASCADE,
+        related_name='subcategories',
+        verbose_name=_('Subcategory'),
+    )
+    order = models.PositiveIntegerField(
+        verbose_name=_('Order'),
+        null=False,
+        blank=False,
+        default=0,
     )
 
     def __str__(self) -> str:

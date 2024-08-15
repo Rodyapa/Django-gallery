@@ -66,3 +66,18 @@
     
 </script>
 {% endblock %}
+
+{% block content %}
+
+<div id="dialogueWindow" class="modal">
+  <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Write New Subcategory Name</h2>
+      <input type='text' class='subcategory-name'></input> <br>
+      <div class='modal-error-message'></div>
+      <button id="confirmButton" class='submit-modal-button'>Confirm</button>
+  </div>
+</div>
+
+{{ block.super }}
+{% endblock %}

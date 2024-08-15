@@ -49,45 +49,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function sortPhotoCards(dragged_card, target_card, arrayOfCards) {
     let targetCardGoesDown;
-    const indexOfDraggedCard = Array.from(sorting_zone.children).indexOf(dragged_card);
-    const indexOfTargetCard = Array.from(sorting_zone.children).indexOf(target_card);
-    if (indexOfDraggedCard < indexOfTargetCard) {
-        targetCardGoesDown=true;
-    } else {
-        targetCardGoesDown=false;
+    //check if card in the has same parent element.
+    if (dragged_card.parentElement == target_card.parentElement) {
+        let parentElementOfCards = dragged_card.parentElement;
+        const indexOfDraggedCard = Array.from(parentElementOfCards.children).indexOf(dragged_card);
+        const indexOfTargetCard = Array.from(parentElementOfCards.children).indexOf(target_card);
+        if (indexOfDraggedCard < indexOfTargetCard) {
+            targetCardGoesDown=true;
+        } else {
+            targetCardGoesDown=false;
+        }
+        
+        if (targetCardGoesDown) {
+            let cardsBetween = getCardsBetween(dragged_card, target_card);
+            cardsBetween.forEach(card => {
+                let orderIDField = getCardOrderField(card);
+                orderIDField.value = (parseInt(orderIDField.value) - 1).toString();
+                console.log(orderIDField.value);
+            });
+            let dragged_card_order_field = getCardOrderField(dragged_card);
+            dragged_card_order_field.value = ((parseInt(dragged_card_order_field.value)+cardsBetween.length)).toString();
+            target_card.after(dragged_card);
+        } else {
+            let cardsBetween = getCardsBetween(target_card, dragged_card);
+            cardsBetween.forEach(card => {
+                let orderIDField = getCardOrderField(card);
+                orderIDField.value = (parseInt(orderIDField.value) + 1).toString();
+            });
+            let dragged_card_order_field = getCardOrderField(dragged_card);
+            dragged_card_order_field.value = ((parseInt(dragged_card_order_field.value)-cardsBetween.length)).toString();
+            parentElementOfCards.insertBefore(dragged_card, target_card);
+        }
+
+        const swapOrderIDs = ((dragged_card, target_card) => {
+            let dragged_card_order_field= getCardOrderField(dragged_card);
+            let target_card_order_field = getCardOrderField(target_card);
+            let temp = dragged_card_order_field.value;
+            dragged_card_order_field.value = target_card_order_field.value;
+            target_card_order_field.value = temp;
+
+        })(dragged_card, target_card);
     }
-    
-    if (targetCardGoesDown) {
-        let cardsBetween = getCardsBetween(dragged_card, target_card);
-        cardsBetween.forEach(card => {
-            let orderIDField = getCardOrderField(card);
-            orderIDField.value = (parseInt(orderIDField.value) - 1).toString();
-            console.log(orderIDField.value);
-        });
-        let dragged_card_order_field = getCardOrderField(dragged_card);
-        dragged_card_order_field.value = ((parseInt(dragged_card_order_field.value)+cardsBetween.length)).toString();
-        target_card.after(dragged_card);
-    } else {
-        let cardsBetween = getCardsBetween(target_card, dragged_card);
-        cardsBetween.forEach(card => {
-            let orderIDField = getCardOrderField(card);
-            orderIDField.value = (parseInt(orderIDField.value) + 1).toString();
-        });
-        let dragged_card_order_field = getCardOrderField(dragged_card);
-        dragged_card_order_field.value = ((parseInt(dragged_card_order_field.value)-cardsBetween.length)).toString();
-        sorting_zone.insertBefore(dragged_card, target_card);
+    else {
+        
     }
-
-    const swapOrderIDs = ((dragged_card, target_card) => {
-        let dragged_card_order_field= getCardOrderField(dragged_card);
-        let target_card_order_field = getCardOrderField(target_card);
-        let temp = dragged_card_order_field.value;
-        dragged_card_order_field.value = target_card_order_field.value;
-        target_card_order_field.value = temp;
-
-    })(dragged_card, target_card);
-
-
 };
 
 export function getMostNestedElement(element) {

@@ -1,5 +1,5 @@
 from django.db import models
-from albums.models import Album
+from albums.models import Album, AlbumSubcategory
 from django_gallery.constants import MAX_CHAR_FIELD
 from django.utils.translation import gettext as _
 from django.core.files.uploadedfile import (
@@ -10,8 +10,8 @@ from .utils import resize_uploaded_image, add_watermark
 from core.model_mixins import SortableMixin
 from django.utils.timezone import now
 
-class Photo(SortableMixin):
 
+class Photo(SortableMixin):
     title = models.CharField(
         verbose_name=_("Title of Photo"),
         max_length=MAX_CHAR_FIELD,
@@ -43,6 +43,14 @@ class Photo(SortableMixin):
         on_delete=models.CASCADE,
         blank=True,
         null=True)
+    subcategory = models.ForeignKey(
+        to=AlbumSubcategory,
+        verbose_name=_("Subcategory"),
+        related_name="photos",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
     order = models.PositiveIntegerField(
         default=0, blank=False, null=False, db_index=True
     )
