@@ -1,11 +1,9 @@
 window.addEventListener("keydown", keydownHandler, true);
 
 function keydownHandler(event) {
-    console.log(event.key);
     if (event.key == "ArrowRight") {
         let elemdiv = document.getElementById("big_pic");
         let current_pic_number = elemdiv.firstElementChild.dataset.number;
-        console.log(current_pic_number);
         current_pic_number++;
         let next_img = document.querySelector(`img[data-number="${current_pic_number}"]`);
         if (next_img) {
@@ -15,7 +13,6 @@ function keydownHandler(event) {
     if (event.key == "ArrowLeft") {
         let elemdiv = document.getElementById("big_pic");
         let current_pic_number = elemdiv.firstElementChild.dataset.number;
-        console.log(current_pic_number);
         current_pic_number--;
         let next_img = document.querySelector(`img[data-number="${current_pic_number}"]`);
         if (next_img) {

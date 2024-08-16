@@ -107,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let file_id = ++lastUsedId
         let fileIdTuple = {'id':file_id, 'file':file}
         ExchangeHubV1.onUploadFiles.push(fileIdTuple);
-        console.log('Uploaded Files:', ExchangeHubV1.onUploadFiles);
         makeUploadedFilePreview(reader.result, lastUsedId);
       };
     } else if (!error) {

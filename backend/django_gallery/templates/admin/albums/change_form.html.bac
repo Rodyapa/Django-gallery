@@ -14,7 +14,6 @@
             headers: {'X-CSRFToken': csrftoken},
             body: my_form
           });
-          console.log(response.text());
         }
         
         uploadButton.addEventListener('click', showAlert);

@@ -89,8 +89,7 @@ class PhotoInAlbumInline(admin.options.InlineModelAdmin):
         css = {
             "all": ["admin//styles/sorting_zone.css", ],
         }
-        js = [JSModulePath('admin/js/drag_sort.js'),
-              JSModulePath('admin/photo_dropzone/js/dynamic_dropzone.js'),
+        js = [JSModulePath('admin/js/dynamic_sortzone.js'),
               ]
 
     def image_preview(self, obj):

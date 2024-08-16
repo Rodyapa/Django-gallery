@@ -10,7 +10,6 @@ export function removeImageFromonUploadFiles(id_to_delete) {
       ExchangeHubV1.onUploadFiles.splice(indexToDelete, 1);
       removeImagePreviewElement(id_to_delete);
     }
-    console.log(ExchangeHubV1.onUploadFiles);
   }
 export function removeImagePreviewElement(id_to_delete) {
     let elementToRemove = document.querySelector(

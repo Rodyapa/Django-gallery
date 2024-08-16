@@ -26,9 +26,7 @@
                 let answer = response.text();
                 ExchangeHubV1.alreadyUploadedFilesIds.add(id);
                 showResultMarkOnPreview(id);
-                console.log(answer);
               } else {
-                console.log(`файл не загружен ${file.name}`)
                 showResultMarkOnPreview(id, false);
               }
             }
