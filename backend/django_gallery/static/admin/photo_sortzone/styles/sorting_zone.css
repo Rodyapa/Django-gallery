@@ -53,6 +53,25 @@ th img.image-preview {
     flex-direction: row;
     width: 100%;
     min-height: 200px;
+    position: relative; 
+}
+.additional-divider > .divider-mover {
+    position: absolute; 
+    top: 10%; 
+    right: 1%; 
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    box-shadow: 7px 13px 18px -4px rgba(0, 0, 0, 0.21);
+}
+.divider-mover:hover,
+.divider-mover:focus {
+    cursor: pointer;
+
+}
+.divider-mover > span {
+    margin: 10px;
 }
 .divider-header {
     text-align: center;

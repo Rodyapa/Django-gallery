@@ -78,6 +78,7 @@ class Album(models.Model):
         to=Section,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         related_name='albums'
     )
     template = models.ForeignKey(
@@ -118,6 +119,27 @@ class Album(models.Model):
         return self.title
 
 
+class SimpleAlbum(Album):
+    class Meta:
+        proxy = True
+        verbose_name_plural = "Albums Simple"
+        verbose_name = "Album"
+
+
+class SubcategoryDividedAlbum(Album):
+    class Meta:
+        proxy = True
+        verbose_name_plural = "Albums (Subcategory divided)"
+        verbose_name = "Album"
+
+
+class YearDividedAlbum(Album):
+    class Meta:
+        proxy = True
+        verbose_name_plural = "Albums (Year divided)"
+        verbose_name = "Album"
+
+    
 class AlbumTemplate(models.Model):
     TEMPLATE_NAMES = {
         "year_sorted": _("year sorted"),

@@ -1,5 +1,6 @@
 window.photoSortingZone = {
-    'sorting_zone': null
+    'sorting_zone': null,
+    'dragElement': null
     };
 
 import {
@@ -7,8 +8,7 @@ import {
 } from '/static/admin/photo_dropzone/js/validators.js';
 
 export let sorting_zone = window.photoSortingZone['sorting_zone'];
-let dragElement = null; 
-let templateChoices;
+let dragElement = window.photoSortingZone['dragElement']; 
 
 document.addEventListener("DOMContentLoaded", () => {
     sorting_zone = document.querySelector('.sorting-zone');
@@ -114,6 +114,10 @@ function getCardSubcategoryField(card) {
     return getMostNestedElement(card.querySelector(".field-subcategory"))
 };
 
+function getCardYearField(card) {
+    return getMostNestedElement(card.querySelector(".field-date"))
+};
+
 function getCardsBetween(startCard, endCard) {
     const parentElement = startCard.parentElement;
 
@@ -130,6 +134,8 @@ function getCardsBetween(startCard, endCard) {
     return cardsBetween;
 };
 
+
+/**
 document.addEventListener("DOMContentLoaded", () => {
     let templateSelectField = document.querySelector('#id_template')
  
@@ -139,13 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
      setTemplateAppearance(
      templateSelectField.value)}); 
  });
- 
+ **/
  /**
   * Function makes map objects with int values of template Select Field and 
   * coresponding text descriptions and "template load functions". Function needed for make code in this module 
   * less complicated.
   */
- function setInitTemplateChoices(select_field) {
+
+/**  function setInitTemplateChoices(select_field) {
      let templateChoices = new Map();
      Array.from(select_field.options).forEach(option => {
          let corespondingLoadFunction = (option.text == 'year_sorted') ? loadPhotosByYearTemplate :
@@ -157,115 +164,15 @@ document.addEventListener("DOMContentLoaded", () => {
      });
      return templateChoices
  };
- 
- function setTemplateAppearance(selected_template) {
+ */
+
+/**  function setTemplateAppearance(selected_template) {
      let functionToLoad = templateChoices.get(selected_template)['template_load_func'];
      functionToLoad();
  };
+ */
+
  
- function loadPhotosByYearTemplate() {
-     loadRegularTemplate();
-     let photo_cards = Array.from(sorting_zone.querySelectorAll('.photo-card'));
-     let year_sorting_zones = new Map();
-     let current_year = (new Date(Date.now()).getFullYear()).toString();
-     let photo_year;
- 
-     photo_cards.forEach(photo_card => {
-         let photo_date = getMostNestedElement(photo_card.querySelector('.field-date')).value
-         if (photo_date == "") {
-             photo_year = current_year;
-         }
-         else {
-             photo_year = photo_date.slice(0,4);
-         }
- 
-         if (!year_sorting_zones.has(photo_year)) {
-             year_sorting_zones.set(photo_year, [photo_card]);
-         }
-         else {
-             year_sorting_zones.get(photo_year).push(photo_card);
-         }
-     });
- 
-     //sort by years descending 
-     year_sorting_zones = Array.from(year_sorting_zones).sort((a, b) => b[0] - a[0]);
- 
-     console.log(year_sorting_zones);
-     // Create div for each year and headers of years
-     year_sorting_zones.forEach(photosByYear => {
-         let year = photosByYear.at(0);
-         let photo_array = photosByYear.at(1);
-         let yearSortingZone = sorting_zone.querySelector(`h3.year-header[textContent="${year}"]`)
-         if (yearSortingZone) {
-             yearSortingZone.style.display = 'flex';
-         }
-         else {
-             yearSortingZone = document.createElement('div');
-             yearSortingZone.classList.add('additional-divider', 'year-divider');
-             yearSortingZone.innerHTML = `<h3 class="year-header divider-header">${year}</h3>`;
- 
-             sorting_zone.appendChild(yearSortingZone);
-         }
-         photo_array.forEach(photo_card => {
-             yearSortingZone.appendChild(photo_card);
-         })          
-     });
- };
- 
- function loadPhotosBySubcategories() {
-     loadRegularTemplate();
-     let photo_cards = Array.from(sorting_zone.querySelectorAll('.photo-card'));
-     let category_sorting_zones = new Map();
-     category_sorting_zones.set('without category', new Array);
- 
-     let existedCategoriesZones = sorting_zone.querySelectorAll(`.subcategory-divider`)
-     for (let categoryZone of existedCategoriesZones) {
-         categoryZone.style.display = 'flex';
-     }
- 
-     photo_cards.forEach(photo_card => {
-         let photo_subcategory = getMostNestedElement(photo_card.querySelector('.field-subcategory')).value
-         if (photo_subcategory == "") {
-             photo_subcategory = 'without category'
-         } 
-         if (!category_sorting_zones.has(photo_subcategory)) {
-             category_sorting_zones.set(photo_subcategory, [photo_card]);
-         } else {
-             category_sorting_zones.get(photo_subcategory).push(photo_card);
-         }
-     });
- 
-     category_sorting_zones.forEach((photo_array, subcategory) => {
-         let subcategorySortingZone = document.getElementById(`subcategory-${subcategory.replace(/ /g, '-')}`);
-         if (!subcategorySortingZone) {
-             subcategorySortingZone = document.createElement('div');
-             subcategorySortingZone.classList.add('additional-divider', 'subcategory-divider');
-             subcategorySortingZone.id = (`subcategory-${subcategory.replace(/ /g, '-')}`);
-             subcategorySortingZone.innerHTML = `<h3 class="subcategory-header divider-header">${subcategory}</h3>`;
-             sorting_zone.appendChild(subcategorySortingZone);
-             subcategorySortingZone.addEventListener('dragover', (event) => {
-                event.preventDefault(); // Allow drop
-            });
-             subcategorySortingZone.addEventListener('drop', moveCardToAnotherZone);
-         }
-         photo_array.forEach(photo_card => {
-             subcategorySortingZone.appendChild(photo_card);
-         })    
-     })
- 
-     //add 'add' button for ability to make new subcategory
-     let addSubcategoryButton = sorting_zone.querySelector('.additional-button.add-subcategory')
-     if (addSubcategoryButton) {
-         addSubcategoryButton.style.display = 'flex';
-     }
-     else {
-         sorting_zone.insertAdjacentHTML('afterbegin',
-             '<input class="additional-button add-subcategory" type="button" value="Add Subcategory" name="_add_subcategory">'
-         )
-         addSubcategoryButton = sorting_zone.querySelector('.additional-button.add-subcategory')
-         addSubcategoryButton.addEventListener('click', triggerSubcategoryButton);
-     }
- };
  
  function loadRegularTemplate() {
      // Delete all year-headers 
@@ -347,22 +254,18 @@ document.addEventListener("DOMContentLoaded", () => {
  };
  
 
- function moveCardToAnotherZone(event) {
-    alert('dropped');
+ export function moveCardToAnotherZone(event) {
     if (!event.target.closest('.photo-card')){
         let target_element = event.target.closest('.additional-divider')
             if (dragElement.closest('.additional-divider') !== target_element) {
-                //let previousCategory = dragElement.closest('.additional-divder')
-                
-                let subcategoryName = extractSubcategory(target_element.id);
-                let subcategoryCardField = getCardSubcategoryField(dragElement);
-                subcategoryCardField.value = subcategoryName;
-                let lastPhotoCardInNewSubcategory = Array.from(target_element.children).findLast(child => child.classList.contains('photo-card'))
                 cascadeOrderChange(dragElement);
-                    target_element.appendChild(dragElement);
+                target_element.appendChild(dragElement);
+                return dragElement;
             }
     }
+    return false;
  }
+
 
  function extractSubcategory(inputString) {
     const prefix = 'subcategory-';

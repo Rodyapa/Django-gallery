@@ -37,7 +37,7 @@
             }
         };
         async function sendFormWithSingleFile (form) {
-          let response = await fetch('/staff/albums/album/{{ object_id }}/upload_photos/', {
+          let response = await fetch('/staff/albums/{{ opts.model_name }}/{{ object_id }}/upload_photos/', {
             method: 'POST',
             body: form
           });
@@ -70,8 +70,8 @@
 <div id="dialogueWindow" class="modal">
   <div class="modal-content">
       <span class="close-button">&times;</span>
-      <h2>Write New Subcategory Name</h2>
-      <input type='text' class='subcategory-name'></input> <br>
+      <h2 class='dialogue-header'></h2>
+      <input type='text' class='dialogue-input'></input> <br>
       <div class='modal-error-message'></div>
       <button id="confirmButton" class='submit-modal-button'>Confirm</button>
   </div>
