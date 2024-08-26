@@ -46,7 +46,7 @@ class AlbumView(View):
                         photos_by_year[str(today_year)] = [photo, ]
             return dict(sorted(photos_by_year.items(), reverse=True))
         elif template_name == 'subdivided':
-            photos_by_subcategories = {'without_category': list(), }
+            photos_by_subcategories = {}
             for photo in photos:
                 photo_subcategory = photo.subcategory
                 if photo.subcategory:
@@ -54,7 +54,5 @@ class AlbumView(View):
                         photos_by_subcategories[photo_subcategory].append(photo)
                     else:
                         photos_by_subcategories[photo_subcategory] = [photo,]
-                else:
-                    photos_by_subcategories['without_category'].append(photo)
             return photos_by_subcategories
         return photos

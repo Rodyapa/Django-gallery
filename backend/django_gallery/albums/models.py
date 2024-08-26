@@ -4,6 +4,7 @@ from django_gallery.constants import MAX_CHAR_FIELD
 from slugify import slugify
 from django.core.exceptions import ValidationError
 from random import randint
+from core.validators import CharFieldValidator
 
 
 class Section(models.Model):
@@ -63,6 +64,11 @@ class Album(models.Model):
         blank=True,
         null=True,
         verbose_name="Description",
+    )
+    show_description = models.BooleanField(
+        default=True,
+        verbose_name='Show description',
+        help_text='If selected, album description will be seen on the site.'
     )
     is_published = models.BooleanField(
         default=True,
@@ -160,13 +166,14 @@ class AlbumSubcategory(models.Model):
         max_length=MAX_CHAR_FIELD,
         verbose_name=_("Subcategory's title"),
         null=False,
-        blank=False
+        blank=False,
+        validators=(CharFieldValidator,)
         )
     album = models.ForeignKey(
         to=Album,
         on_delete=models.CASCADE,
         related_name='subcategories',
-        verbose_name=_('Subcategory'),
+        verbose_name=_('Album'),
     )
     order = models.PositiveIntegerField(
         verbose_name=_('Order'),
@@ -177,3 +184,7 @@ class AlbumSubcategory(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+    class Meta:
+        ordering = ["order",]
+        verbose_name_plural = 'Album Subcategories'

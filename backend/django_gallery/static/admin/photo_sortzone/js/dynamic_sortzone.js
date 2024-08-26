@@ -8,7 +8,7 @@ import {
 } from '/static/admin/photo_dropzone/js/validators.js';
 
 export let sorting_zone = window.photoSortingZone['sorting_zone'];
-let dragElement = window.photoSortingZone['dragElement']; 
+export let dragElement = window.photoSortingZone['dragElement']; 
 
 document.addEventListener("DOMContentLoaded", () => {
     sorting_zone = document.querySelector('.sorting-zone');
@@ -109,9 +109,6 @@ export function getMostNestedElement(element) {
 
 function getCardOrderField(card) {
     return getMostNestedElement(card.querySelector(".field-order"))
-};
-function getCardSubcategoryField(card) {
-    return getMostNestedElement(card.querySelector(".field-subcategory"))
 };
 
 function getCardYearField(card) {
@@ -272,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const startIndex = prefix.length;
     return inputString.substring(startIndex);
 }
-function cascadeOrderChange(photoCard) {
+export function cascadeOrderChange(photoCard) {
     let parentSection = photoCard.parentElement;
     let moveableCardOrder = getCardOrderField(photoCard).value;
     let allParentSectionCards = parentSection.querySelectorAll('.photo-card');

@@ -1,0 +1,61 @@
+.subcategory-element {
+    width: 100%;
+}
+
+.sorting-zone .add-row {
+    width: 100%;
+}
+
+.photo-to-subcategory-menu {
+    display: none;
+}
+.without-category {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
+  min-height: 200px;
+  position: relative;
+}
+
+.modal-menu {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.75); /* Black w/ opacity */
+    backdrop-filter: blur(10px)
+}
+
+.modal-menu-content {
+    color: var(--modal-text);
+    background-color: rgb(255, 255, 255, 0.7);
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border-radius: 30px;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.photo-to-subcategory-menu-controller {
+    background-color: var(--breadcrumbs-bg);
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: large;
+    padding: 0.5em;
+}
+.photo-to-subcategory-menu-controller select {
+    min-width: 10em;
+}
+
+.photo-selected-to-move {
+    background-color: rgb(247, 200, 114);
+}
+.submit-row {
+    position: sticky;
+    top: 0px;
+    z-index: 99
+}

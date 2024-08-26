@@ -28,6 +28,9 @@ th img.image-preview {
     background: var(--breadcrumbs-bg);
     transition: 0.5s;
 }
+.photo-card .image-preview{
+    max-height: 200px;
+}
 
 .dragged {
     scale: 1.1;

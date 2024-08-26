@@ -15,6 +15,11 @@
 	{#{% include 'includes/scroll_button.html'%}#}
 
 	<h1>{{ album.title }}</h1>
+	{% if album.show_description %}
+		<p>
+			{{ album.description }}
+		</p>
+	{% endif %}
     {% block content%}
         <section>
             <p class="first_best">

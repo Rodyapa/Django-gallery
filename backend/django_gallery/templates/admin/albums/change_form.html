@@ -1,4 +1,4 @@
-{% extends "admin/change_form.html" %}
+{% extends "admin/albums/change_form_original_base.html" %}
 
 {% block extrahead %}
 {{ block.super }}
@@ -67,7 +67,7 @@
 
 {% block content %}
 
-<div id="dialogueWindow" class="modal">
+<div id="dialogueWindow" class="modal" hidden>
   <div class="modal-content">
       <span class="close-button">&times;</span>
       <h2 class='dialogue-header'></h2>
@@ -76,6 +76,6 @@
       <button id="confirmButton" class='submit-modal-button'>Confirm</button>
   </div>
 </div>
-
 {{ block.super }}
 {% endblock %}
+

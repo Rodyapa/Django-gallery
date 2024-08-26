@@ -8,8 +8,6 @@ import {
 } from '/static/admin/photo_sortzone/js/validators.js';
 
 let dragElement = window.photoSortingZone['dragElement']; 
-let current_year = (new Date(Date.now()).getFullYear()).toString();
-
 
 document.addEventListener("DOMContentLoaded", () => {
     loadPhotosByYearTemplate();    
@@ -113,7 +111,7 @@ function triggerAddYearButton() {
          const isValidInput = validateYearInput(parseInt(dialogueWindowInput), existentYears);
          if (isValidInput === true) {
             AddNewYearSubdividerElement(dialogueWindowInput);
-             dialogueWindow.style.display = "none";
+            dialogueWindow.style.display = "none";
          }
          else {
             errorMessage.innerHTML = isValidInput;

@@ -16,6 +16,7 @@ from .admin_forms import AlbumForm
 from django.shortcuts import get_object_or_404, render
 from django import forms
 from admin_site.form_fields import JSModulePath
+from django.db.models import Max
 
 
 class StaffSite(admin.AdminSite):
@@ -59,6 +60,7 @@ class PhotoAdmin(admin.ModelAdmin):
         "date",
         "is_published",
         "album",
+        "subcategory"
     ]
     readonly_fields = ['image_preview']
     list_display = ['image_preview', "title", 'album']
@@ -108,25 +110,7 @@ class PhotoAlbumInlineBase(admin.options.InlineModelAdmin):
 class PhotoSimpleAlbumInline(PhotoAlbumInlineBase):
     class Media:
         js = [JSModulePath('/admin/photo_sortzone/js/dynamic_sortzone.js'),
-                ]
-
-
-class PhotoSubcategoryDividedAlbumInline(PhotoAlbumInlineBase):
-    fields = [
-        "title",
-        "image_preview",
-        "is_published",
-        "subcategory",
-        "order",
-    ]
-
-    def get_formset(self, request, obj=None, **kwargs):
-        formset = super().get_formset(request, obj, **kwargs)
-        form = formset.form
-
-        form.base_fields['subcategory'].widget = forms.HiddenInput()
-
-        return formset
+        ]
 
 
 class PhotoYearDividedAlbumInline(PhotoAlbumInlineBase):
@@ -139,7 +123,7 @@ class PhotoYearDividedAlbumInline(PhotoAlbumInlineBase):
     ]
 
     class Media:
-        js = [JSModulePath('/admin/photo_sortzone/js/load_year_tempate.js'),]
+        js = [JSModulePath('/admin/photo_sortzone/js/load_year_template.js'),]
 
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj, **kwargs)
@@ -170,7 +154,7 @@ class AlbumAdminBase(admin.ModelAdmin):
             path("<path:object_id>/upload_photos/", self.admin_site.admin_view(
                 self.upload_photo_to_album_view,
             ),
-                name='upload_photos')
+                name='upload_photos'),
         ]
         return my_urls + urls
 
@@ -222,16 +206,34 @@ class SimpleAlbumAdmin(AlbumAdminBase):
         qs = super(AlbumAdminBase, self).get_queryset(request)
         return qs.filter(template=None)
 
-@admin.register(SubcategoryDividedAlbum, site=admin_staff_site)
-class SubcategoryDividedAlbumAdmin(AlbumAdminBase):
-    model = SubcategoryDividedAlbum
-    inlines = [PhotoSubcategoryDividedAlbumInline, ]
 
-    def get_queryset(self, request):
-        qs = super(AlbumAdminBase, self).get_queryset(request)
-        subdivided_template_id = AlbumTemplate.objects.get(title='subdivided').id
-        return qs.filter(template=subdivided_template_id)
 
+
+#  Subcategory Divided Album Page related Classes
+
+class PhotoSubcategoryDividedAlbumInline(PhotoAlbumInlineBase):
+    fields = [
+        "title",
+        "image_preview",
+        "is_published",
+        "subcategory",
+        "order",
+    ]
+    template = 'admin/albums/edit_inlines/bare_photo_mosaic.html'
+
+    class Media:
+        js = [JSModulePath(
+            '/admin/photo_sortzone/js/load_subcategory_template.js'
+        ),]
+
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        form = formset.form
+        form.base_fields['subcategory'].widget = forms.HiddenInput()
+        return formset
+
+    def has_add_permission(self, request, obj):
+        return False
 
 @admin.register(YearDividedAlbum, site=admin_staff_site)
 class YearDividedAlbumAdmin(AlbumAdminBase):
@@ -242,3 +244,47 @@ class YearDividedAlbumAdmin(AlbumAdminBase):
         qs = super(AlbumAdminBase, self).get_queryset(request)
         year_sorted_template_id = AlbumTemplate.objects.get(title='year_sorted').id
         return qs.filter(template=year_sorted_template_id)
+
+
+class SubcategoryInline(admin.StackedInline):
+    model = AlbumSubcategory
+    fields = ['title', 'order']
+    extra = 0
+    template = 'admin/albums/edit_inlines/subcategory_inline.html'
+
+    class Media:
+        css = {
+            "all": ["admin/photo_sortzone/styles/subcategories.css", ],
+        }
+
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        form = formset.form
+        form.base_fields['order'].widget = forms.HiddenInput()
+        return formset
+
+    def has_add_permission(self, request, obj):
+        return False
+
+@admin.register(SubcategoryDividedAlbum, site=admin_staff_site)
+class SubcategoryDividedAlbumAdmin(AlbumAdminBase):
+    model = SubcategoryDividedAlbum
+    inlines = [PhotoSubcategoryDividedAlbumInline,
+               SubcategoryInline]
+
+    def get_queryset(self, request):
+        qs = super(AlbumAdminBase, self).get_queryset(request)
+        subdivided_template_id = AlbumTemplate.objects.get(title='subdivided').id
+        return qs.filter(template=subdivided_template_id)
+
+@admin.register(AlbumSubcategory, site=admin_staff_site)
+class AlbumSubcategoryAdmin(admin.ModelAdmin):
+    model = AlbumSubcategory
+    exclude =('order',)
+    list_display = ('title', 'album')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "album": 
+            subdivided_template_id = AlbumTemplate.objects.get(title='subdivided').id
+            kwargs["queryset"] = Album.objects.filter(template=subdivided_template_id)  # Only show active authors
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
