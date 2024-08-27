@@ -59,3 +59,15 @@
     top: 0px;
     z-index: 99
 }
+
+.dropzone-select-instruction,
+#dropzone-select {
+    width: 10em ;
+    height: 3em ;
+    margin: 2em ;
+}
+
+.dropzone-controller {
+    display: flex;
+    flex-direction: column;
+}

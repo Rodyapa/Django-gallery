@@ -13,6 +13,10 @@
 
         async function sendForm() {
           let form = new FormData(document.querySelector('form[id="album_form"]'));
+          let selectedCategoryID = document.querySelector('#dropzone-select')
+          if (selectedCategoryID != null) {
+            selectedCategoryID = selectedCategoryID.value
+          }
           if (sending) {
             alert ('УЖЕ ГРУЗИТСЯ');
             return;
@@ -21,6 +25,7 @@
             sending = true;
             for (const {id, file} of ExchangeHubV1.onUploadFiles) {
               form.set('upload_photos', file);
+              form.set('selected_category', selectedCategoryID)
               let response = await sendFormWithSingleFile(form);
               if (response.ok) {
                 let answer = response.text();

@@ -19,17 +19,14 @@ let photoToSubcategoryMenu = document.querySelector('.photo-to-subcategory-menu'
 let withoutCategoryZone = document.querySelector('.without-category');
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadPhotosBySubcategories();
-});
-
-
-function loadPhotosBySubcategories() {
     putCardsInCorrespondingSubcategories(photoCards);
     placePhotosWithoutCategoryIntoAddMenu();
     addEventListenersToButtons();
     addAditionalEventListenerForPhotoCards();
     addAditionalEventListenersForSubcategoriesElements();
-}
+    addAdditionalButtonsToDropZone();
+});
+
 
 function addAditionalEventListenerForPhotoCards() {
     photoCards.forEach(card =>{
@@ -228,6 +225,21 @@ function getExistentCategories() {
     return subcategoriesAndItsNames
 }
 
+function getExistentCategoriesNamesAndItsIDs() {
+    let subcategoriesElements = subcategoriesGroupElement.querySelectorAll('div[id*="subcategories"]')
+    subcategoriesElements = Array.from(subcategoriesElements).filter(div => {
+        const id = div.id; 
+        return id.includes('subcategories-') && id !== 'subcategories-empty'; 
+    });
+    let subcategoriesAndItsNames = new Map();
+    subcategoriesElements.forEach(subcategoryElement => {
+        let currentSubcategoryName = getSubcategoryName(subcategoryElement);
+        let currentSubcategoryID = getSubcategoryID(subcategoryElement)
+        subcategoriesAndItsNames.set(currentSubcategoryName.trim(), currentSubcategoryID);
+    })
+    return subcategoriesAndItsNames
+}
+
 function getSubcategoryID(subcategoryElement) {
     let subcategoryID = (document.getElementsByName(`${subcategoryElement.id}-id`)[0]).value
     return subcategoryID
@@ -272,3 +284,23 @@ function changeSubcategoryOfCardDueToSortZone(card) {
     let SubcategoryField = getCardSubcategoryField(card);
     SubcategoryField.value = subcategoryID
 };
+
+function addAdditionalButtonsToDropZone() {
+    let dropzoneControllerElement = document.querySelector('.dropzone-controller');
+    let additionalButtons = `<span class='dropzone-select-instruction'> Select the subcategory you want to upload photos to </span>
+        <select id="dropzone-select">
+        <option value=''>Without category</option>
+         </select>
+    `
+    dropzoneControllerElement.insertAdjacentHTML('beforeend',additionalButtons);
+    formSelectOptionsForDropzoneSelect(dropzoneControllerElement.querySelector('#dropzone-select'),
+                                                getExistentCategoriesNamesAndItsIDs());
+}
+function formSelectOptionsForDropzoneSelect (selectElement, selectOptions) {
+        selectOptions.forEach((id, name) => {
+        let newOption = document.createElement('option');
+        newOption.innerHTML = (name);
+        newOption.value = id
+        selectElement.appendChild(newOption);
+    })
+}

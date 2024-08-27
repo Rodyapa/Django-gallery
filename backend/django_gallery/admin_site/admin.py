@@ -176,9 +176,20 @@ class AlbumAdminBase(admin.ModelAdmin):
                 '''import time
                 time.sleep(5)'''
                 uploaded_file = form.cleaned_data.get('upload_photos')[0]
+                selected_category_id = request.POST.get('selected_category')
                 try:
-                    new_photo = Photo.objects.create(image=uploaded_file,
-                                                     album=album)
+                    selected_category_id = int(selected_category_id)
+                    selected_category = AlbumSubcategory.objects.get(
+                        id=selected_category_id
+                    )
+                except (AlbumSubcategory.DoesNotExist, ValueError) as e:
+                    selected_category = None
+                try:
+                    new_photo = Photo.objects.create(
+                        image=uploaded_file,
+                        subcategory=selected_category,
+                        album=album
+                    )
                     response = {'success': True,
                                 'error': None}
                     response_status = 200

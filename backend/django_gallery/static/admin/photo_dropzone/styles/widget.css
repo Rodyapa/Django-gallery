@@ -66,8 +66,13 @@
 }
 
 input[type="button"][value="Upload photos"][name="_upload_photos"]  {
-
     width: 10em ;
     height: 3em ;
     margin: 2em ;
 }
+
+.dropzone-controller {
+    display: flex;
+    flex-direction: column;
+}
+
