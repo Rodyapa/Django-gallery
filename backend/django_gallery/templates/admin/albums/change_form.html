@@ -14,21 +14,20 @@
         async function sendForm() {
           let form = new FormData(document.querySelector('form[id="album_form"]'));
           let selectedElement  = document.querySelector('#dropzone-select')
-          let selectedValue = document.querySelector('#dropzone-select').value
           let selectedCategoryID = null
-
           let current_month = (new Date(Date.now()).getMonth+1).toString();
           let current_day = (new Date(Date.now()).getDate()).toString();
           let current_year = (new Date(Date.now())).getFullYear();
           let selectedYear = `${current_day}-${current_month}-${current_year}`;
-
-          if (selectedElement.classList.contains('year-select')) {
-            selectedYear = selectedValue;
+          if (selectedElement) {
+            if (selectedElement.classList.contains('year-select')) {
+              selectedYear = selectedElement.value;
+            }
+            else if (selectedElement.classList.contains('subcategory-select')) {
+              selectedCategoryID = selectedElement.value;
+            }
           }
-          else if (selectedElement.classList.contains('subcategory-select')) {
-            selectedCategoryID = selectedValue;
-          }
-
+         
           if (sending) {
             alert ('УЖЕ ГРУЗИТСЯ');
             return;
