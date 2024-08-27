@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addAditionalEventListenerForPhotoCards();
     addAditionalEventListenersForSubcategoriesElements();
     addAdditionalButtonsToDropZone();
+    addAdditionalClassToDropZone();
 });
 
 
@@ -303,4 +304,9 @@ function formSelectOptionsForDropzoneSelect (selectElement, selectOptions) {
         newOption.value = id
         selectElement.appendChild(newOption);
     })
+}
+
+function addAdditionalClassToDropZone() {
+    let selectElement = document.querySelector('#dropzone-select');
+    selectElement.classList.add('subcategory-select');
 }

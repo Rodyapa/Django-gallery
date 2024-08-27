@@ -10,7 +10,9 @@ import {
 let dragElement = window.photoSortingZone['dragElement']; 
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadPhotosByYearTemplate();    
+    loadPhotosByYearTemplate();
+    addAdditionalButtonsToDropZone();
+    addAdditionalClassToDropZone();
 });
 
 function loadPhotosByYearTemplate() {
@@ -111,6 +113,7 @@ function triggerAddYearButton() {
          const isValidInput = validateYearInput(parseInt(dialogueWindowInput), existentYears);
          if (isValidInput === true) {
             AddNewYearSubdividerElement(dialogueWindowInput);
+            AddNewYearToSelectionElement(dialogueWindowInput);
             dialogueWindow.style.display = "none";
          }
          else {
@@ -138,6 +141,13 @@ function AddNewYearSubdividerElement(year) {
     sorting_zone.appendChild(newYear);
 };
 
+function AddNewYearToSelectionElement(year) {
+    let selectionElement = document.querySelector('#dropzone-select');
+    let newOption = document.createElement('option');
+        newOption.innerHTML = (year);
+        newOption.value = year
+    selectionElement.appendChild(newOption);
+}
 function changeYearOfCardDueToSortZone(card) {
     let newYear  = getYearFromClass(card.parentElement);
     let yearField = getCardYearField(card)
@@ -174,3 +184,27 @@ function getExistentYears() {
 function getCardYearField(card) {
     return getMostNestedElement(card.querySelector(".field-date"))
 };
+
+function addAdditionalButtonsToDropZone() {
+    let dropzoneControllerElement = document.querySelector('.dropzone-controller');
+    let additionalButtons = `<span class='dropzone-select-instruction'> Select the year you want to upload photos to </span>
+        <select id="dropzone-select">
+         </select>
+    `
+    dropzoneControllerElement.insertAdjacentHTML('beforeend',additionalButtons);
+    formSelectOptionsForDropzoneSelect(dropzoneControllerElement.querySelector('#dropzone-select'),
+                                       getExistentYears());
+}
+function formSelectOptionsForDropzoneSelect (selectElement, selectOptions) {
+        selectOptions.forEach((year) => {
+        let newOption = document.createElement('option');
+        newOption.innerHTML = (year);
+        newOption.value = year
+        selectElement.appendChild(newOption);
+    })
+}
+
+function addAdditionalClassToDropZone() {
+    let selectElement = document.querySelector('#dropzone-select');
+    selectElement.classList.add('year-select');
+}

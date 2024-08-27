@@ -13,10 +13,22 @@
 
         async function sendForm() {
           let form = new FormData(document.querySelector('form[id="album_form"]'));
-          let selectedCategoryID = document.querySelector('#dropzone-select')
-          if (selectedCategoryID != null) {
-            selectedCategoryID = selectedCategoryID.value
+          let selectedElement  = document.querySelector('#dropzone-select')
+          let selectedValue = document.querySelector('#dropzone-select').value
+          let selectedCategoryID = null
+
+          let current_month = (new Date(Date.now()).getMonth+1).toString();
+          let current_day = (new Date(Date.now()).getDate()).toString();
+          let current_year = (new Date(Date.now())).getFullYear();
+          let selectedYear = `${current_day}-${current_month}-${current_year}`;
+
+          if (selectedElement.classList.contains('year-select')) {
+            selectedYear = selectedValue;
           }
+          else if (selectedElement.classList.contains('subcategory-select')) {
+            selectedCategoryID = selectedValue;
+          }
+
           if (sending) {
             alert ('УЖЕ ГРУЗИТСЯ');
             return;
@@ -26,6 +38,7 @@
             for (const {id, file} of ExchangeHubV1.onUploadFiles) {
               form.set('upload_photos', file);
               form.set('selected_category', selectedCategoryID)
+              form.set('specific_year', selectedYear)
               let response = await sendFormWithSingleFile(form);
               if (response.ok) {
                 let answer = response.text();

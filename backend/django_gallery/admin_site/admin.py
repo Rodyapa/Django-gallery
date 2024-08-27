@@ -17,7 +17,7 @@ from django.shortcuts import get_object_or_404, render
 from django import forms
 from admin_site.form_fields import JSModulePath
 from django.db.models import Max
-
+from datetime import date
 
 class StaffSite(admin.AdminSite):
     site_header = f"{settings.SITE_TITLE} administration"
@@ -173,10 +173,9 @@ class AlbumAdminBase(admin.ModelAdmin):
             form = AlbumForm(request.POST, request.FILES, instance=album)
             form_validated = form.is_valid()
             if form_validated:
-                '''import time
-                time.sleep(5)'''
                 uploaded_file = form.cleaned_data.get('upload_photos')[0]
                 selected_category_id = request.POST.get('selected_category')
+                selected_year = request.POST.get('specific_year')
                 try:
                     selected_category_id = int(selected_category_id)
                     selected_category = AlbumSubcategory.objects.get(
@@ -185,10 +184,20 @@ class AlbumAdminBase(admin.ModelAdmin):
                 except (AlbumSubcategory.DoesNotExist, ValueError) as e:
                     selected_category = None
                 try:
+                    selected_year = int(selected_year)
+                    todays_date = date.today()
+                    todays_month = todays_date.month
+                    todays_day = todays_date.day
+                    photo_date = date(year=selected_year, month=todays_month,
+                                      day=todays_day)
+                except ValueError as e:
+                    photo_date = date.today()
+                try:
                     new_photo = Photo.objects.create(
                         image=uploaded_file,
                         subcategory=selected_category,
-                        album=album
+                        album=album,
+                        date=photo_date
                     )
                     response = {'success': True,
                                 'error': None}
