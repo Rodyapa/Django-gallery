@@ -72,4 +72,3 @@ class Photo(SortableMixin):
             self.image = resize_uploaded_image(self.image.file)
             self.image = add_watermark(self.image.file)
         super(Photo, self).save(*args, **kwargs)
-    
