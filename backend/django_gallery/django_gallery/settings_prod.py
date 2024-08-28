@@ -12,23 +12,24 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 from core.utils import get_generated_secret_key
-SECRET_KEY = get_generated_secret_key()
+generated_secret_key = get_generated_secret_key()
+SECRET_KEY = generated_secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG_IS_ON') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost',
+                 '127.0.0.1',
+                 os.getenv('HOSTING_IP'),
+                 os.getenv('HOSTING_DOMAIN')]
 
 
 # Application definition
@@ -87,6 +88,7 @@ WSGI_APPLICATION = 'django_gallery.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
@@ -156,3 +158,11 @@ TELEGRAM_LINK = os.getenv('TELEGRAM_LINK', None)
 
 
 COPYRIGHT = os.getenv('COPYRIGHT', None)
+
+
+# HTTPS connection
+
+CSRF_COOKIE_SECURE = True
+hosting_domain = str(os.getenv('HOSTING_DOMAIN'))
+trusted_origin = os.getenv('TRUSTED_ORIGIN', ('https://' + hosting_domain))
+CSRF_TRUSTED_ORIGINS = ['https://dooropener.risetime.ru', trusted_origin]

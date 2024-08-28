@@ -1,0 +1,42 @@
+volumes:
+  pg_data:
+  static:
+  media:
+  created_config:
+
+services:
+  db:
+    image: postgres:13
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    depends_on:
+      db:
+        condition: service_healthy 
+
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-dev
+    env_file: .env
+    volumes:
+      - static:/backend_static
+      - media:/app/django_gallery/media/
+      - created_config:/app/django_gallery/created_config
+  gateway:
+    depends_on:
+      - backend
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    volumes:
+      - static:/staticfiles/
+      - media:/django_gallery/media/
+    ports:
+      - 8000:80

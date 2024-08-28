@@ -152,3 +152,8 @@ media/
 *media/*
 *collected_static/*
 photos/
+
+# Папки с сгенерированными конфигурационными секретами
+created_config/
+
+
