@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'admin_site.apps.AdminSiteConfig',
     'core.apps.CoreConfig',
     'static_site.apps.StaticSiteConfig',
-    'django.forms'
+    'django.forms',
+    'django_cleanup.apps.CleanupConfig'
 ]
 
 MIDDLEWARE = [
