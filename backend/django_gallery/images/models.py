@@ -62,7 +62,7 @@ class Photo(SortableMixin):
 
     def __str__(self):
         return str(self.title) if self.title else str(self.id)
-    '''
+    
     def save(self, *args, **kwargs):
         """Resizing given image before saving"""
         if (
@@ -72,4 +72,4 @@ class Photo(SortableMixin):
             self.image = resize_uploaded_image(self.image.file)
             self.image = add_watermark(self.image.file)
         super(Photo, self).save(*args, **kwargs)
-    '''
+    

@@ -15,7 +15,7 @@
           let form = new FormData(document.querySelector('form[id="album_form"]'));
           let selectedElement  = document.querySelector('#dropzone-select')
           let selectedCategoryID = null
-          let current_month = (new Date(Date.now()).getMonth+1).toString();
+          let current_month = (new Date(Date.now()).getMonth()+1).toString();
           let current_day = (new Date(Date.now()).getDate()).toString();
           let current_year = (new Date(Date.now())).getFullYear();
           let selectedYear = `${current_day}-${current_month}-${current_year}`;

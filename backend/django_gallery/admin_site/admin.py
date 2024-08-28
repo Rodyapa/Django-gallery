@@ -202,7 +202,7 @@ class AlbumAdminBase(admin.ModelAdmin):
                     response = {'success': True,
                                 'error': None}
                     response_status = 200
-                except:
+                except Exception as e:
                     response = {'success': False,
                                 'error': 'Error when uploading photo on server'}
                     response_status = 500
