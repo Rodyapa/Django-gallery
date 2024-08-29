@@ -23,7 +23,7 @@ services:
 
     build:
       context: ./backend
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile.dev
     env_file: .env
     volumes:
       - static:/backend_static
