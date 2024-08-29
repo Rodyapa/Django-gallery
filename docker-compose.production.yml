@@ -32,6 +32,6 @@ services:
     image: rodypa/django-gallery-gateway:production
     volumes:
       - static:/staticfiles/
-      - media:/django_gallery/media/
+      - media:/app/django_gallery/media/
     ports:
       - 8070:80
