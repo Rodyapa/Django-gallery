@@ -133,15 +133,23 @@ def build_watermark_layer(pil_image):
     watermark_area_horizontal = int(x - w / 100), x + w // 100
     watermark_area_vertical = int(y - h / 100), y + h // 100
     # Take each tenth pixel of potential watermark area
+    step_horizontal = (
+        (watermark_area_horizontal[1] - watermark_area_horizontal[0]) // 10)
+    if step_horizontal == 0:
+        step_horizontal = 1
+    step_vertical = (
+        (watermark_area_horizontal[1] - watermark_area_horizontal[0]) // 10)
+    if step_vertical == 0:
+        step_vertical = 1
     watermark_area_sample_pixels = [
         [x, y] for x in range(
             watermark_area_horizontal[0],
             watermark_area_horizontal[1],
-            (watermark_area_horizontal[1] - watermark_area_horizontal[0]) // 10
+            step_horizontal
         ) for y in range(
             watermark_area_vertical[0],
             watermark_area_vertical[1],
-            (watermark_area_vertical[1] - watermark_area_vertical[0]) // 10
+            step_vertical
         )
     ]
 
