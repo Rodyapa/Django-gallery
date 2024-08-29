@@ -1,5 +1,4 @@
 import os
-
 from pathlib import Path
 
 from django.conf import settings
@@ -24,7 +23,7 @@ class Command(BaseCommand):
 
             with open(secret_file_path, 'w') as secret_file:
                 secret_file.write(f'SECRET_KEY={secret_key}')
-            
+
             os.chmod(secret_file_path, 0o444)
             self.stdout.write(
                 self.style.SUCCESS(
