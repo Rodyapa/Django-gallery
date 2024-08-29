@@ -20,7 +20,7 @@ services:
       db:
         condition: service_healthy 
 
-    image: rodypa/django-gallery-backend:produtcion
+    image: rodypa/django-gallery-backend:production
     env_file: .env
     volumes:
       - static:/backend_static
