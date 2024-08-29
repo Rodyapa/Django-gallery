@@ -1,10 +1,11 @@
+from random import randint
+
+from core.validators import CharFieldValidator
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext as _
 from django_gallery.constants import MAX_CHAR_FIELD
 from slugify import slugify
-from django.core.exceptions import ValidationError
-from random import randint
-from core.validators import CharFieldValidator
 
 
 class Section(models.Model):

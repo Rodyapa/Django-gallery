@@ -1,8 +1,9 @@
-from django.shortcuts import get_object_or_404, render
-from albums.models import Album
-from images.models import Photo
-from django.views import View
 from datetime import date
+
+from albums.models import Album
+from django.shortcuts import get_object_or_404, render
+from django.views import View
+from images.models import Photo
 
 
 class AlbumView(View):

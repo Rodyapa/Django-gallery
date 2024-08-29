@@ -1,14 +1,13 @@
-from django.db import models
 from albums.models import Album, AlbumSubcategory
-from django_gallery.constants import MAX_CHAR_FIELD
-from django.utils.translation import gettext as _
-from django.core.files.uploadedfile import (
-    InMemoryUploadedFile,
-    TemporaryUploadedFile,
-)
-from .utils import resize_uploaded_image, add_watermark
 from core.model_mixins import SortableMixin
+from django.core.files.uploadedfile import (InMemoryUploadedFile,
+                                            TemporaryUploadedFile)
+from django.db import models
 from django.utils.timezone import now
+from django.utils.translation import gettext as _
+from django_gallery.constants import MAX_CHAR_FIELD
+
+from .utils import add_watermark, resize_uploaded_image
 
 
 class Photo(SortableMixin):

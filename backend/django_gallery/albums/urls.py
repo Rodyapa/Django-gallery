@@ -1,5 +1,5 @@
-from django.urls import re_path
 from albums import views
+from django.urls import re_path
 
 app_name = 'albums'
 

@@ -1,7 +1,8 @@
 from pathlib import Path
+
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.core.management.utils import get_random_secret_key
-from django.conf import settings
 
 
 class Command(BaseCommand):

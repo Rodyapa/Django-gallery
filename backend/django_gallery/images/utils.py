@@ -2,14 +2,15 @@
 
 import os
 from io import BytesIO
+from statistics import fmean
 
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import (InMemoryUploadedFile,
-                                            TemporaryUploadedFile
-                                            )
-from PIL import Image as PilImage, ImageDraw, ImageFont, ExifTags
-from statistics import fmean
-from django.conf import settings
+                                            TemporaryUploadedFile)
+from PIL import ExifTags
+from PIL import Image as PilImage
+from PIL import ImageDraw, ImageFont
 
 
 def get_exif_orientation(image):

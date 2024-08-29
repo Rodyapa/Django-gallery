@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 from core.utils import get_generated_secret_key
+
 generated_secret_key = get_generated_secret_key()
 SECRET_KEY = generated_secret_key
 
@@ -165,4 +167,4 @@ COPYRIGHT = os.getenv('COPYRIGHT', None)
 CSRF_COOKIE_SECURE = True
 hosting_domain = str(os.getenv('HOSTING_DOMAIN'))
 trusted_origin = os.getenv('TRUSTED_ORIGIN', ('https://' + hosting_domain))
-CSRF_TRUSTED_ORIGINS = ['https://dooropener.risetime.ru', trusted_origin]
+CSRF_TRUSTED_ORIGINS = [trusted_origin, ]

@@ -1,18 +1,20 @@
-from django.contrib import admin
-from django.conf import settings
-from django.http import JsonResponse
-from django.urls.resolvers import URLPattern
-from albums.models import (Section, Album, SubcategoryDividedAlbum,
-                           YearDividedAlbum, AlbumTemplate, AlbumSubcategory,
-                           SimpleAlbum)
-from images.models import Photo
-from django.utils.translation import gettext as _
-from django.utils.html import format_html
-from django.urls import reverse, path
-from .admin_forms import AlbumForm
-from django import forms
-from admin_site.form_fields import JSModulePath
 from datetime import date
+
+from admin_site.form_fields import JSModulePath
+from albums.models import (Album, AlbumSubcategory, AlbumTemplate, Section,
+                           SimpleAlbum, SubcategoryDividedAlbum,
+                           YearDividedAlbum)
+from django import forms
+from django.conf import settings
+from django.contrib import admin
+from django.http import JsonResponse
+from django.urls import path, reverse
+from django.urls.resolvers import URLPattern
+from django.utils.html import format_html
+from django.utils.translation import gettext as _
+from images.models import Photo
+
+from .admin_forms import AlbumForm
 
 
 class StaffSite(admin.AdminSite):

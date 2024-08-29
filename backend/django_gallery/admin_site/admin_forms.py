@@ -1,6 +1,6 @@
-from django import forms
-from albums.models import Album
 from admin_site.form_fields import MultipleImageField
+from albums.models import Album
+from django import forms
 
 
 class AlbumForm(forms.ModelForm):

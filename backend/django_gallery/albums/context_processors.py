@@ -1,4 +1,4 @@
-from albums.models import Section, Album
+from albums.models import Album, Section
 from albums.utils import find_all_child_sections_and_their_albums
 
 
