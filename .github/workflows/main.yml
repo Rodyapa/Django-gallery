@@ -111,6 +111,7 @@ jobs:
           port: 22
           script: |
             cd django-gallery
+            ls -al 
             echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker compose -f docker-compose.production.yml pull
             echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker compose -f docker-compose.production.yml down
             echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker compose -f docker-compose.production.yml up -d
