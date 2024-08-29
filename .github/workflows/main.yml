@@ -52,10 +52,12 @@ jobs:
         with: 
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: List backend directory
+        run: ls -la ./backend/
       - name: Push To DockerHub
         uses: docker/build-push-action@v4
         with:
-          context: ./backend
+          context: ./backend/
           file: Dockerfile.prod
 
           push: true
