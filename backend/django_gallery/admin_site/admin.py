@@ -176,7 +176,8 @@ class AlbumAdminBase(admin.ModelAdmin):
                 form_validated = form.is_valid()
                 if form_validated:
                     uploaded_file = form.cleaned_data.get('upload_photos')[0]
-                    selected_category_id = request.POST.get('selected_category')
+                    selected_category_id = request.POST.get(
+                        'selected_category')
                     selected_year = request.POST.get('specific_year')
                     try:
                         selected_category_id = int(selected_category_id)
@@ -190,8 +191,10 @@ class AlbumAdminBase(admin.ModelAdmin):
                         todays_date = date.today()
                         todays_month = todays_date.month
                         todays_day = todays_date.day
-                        photo_date = date(year=selected_year, month=todays_month,
-                                        day=todays_day)
+                        photo_date = date(
+                            year=selected_year,
+                            month=todays_month,
+                            day=todays_day)
                     except ValueError:
                         photo_date = date.today()
                     try:
@@ -219,7 +222,7 @@ class AlbumAdminBase(admin.ModelAdmin):
                             'error': f'{request.method} Method not allowed'}
                 response_status = 405
             return JsonResponse(response, status=response_status)
-        else: 
+        else:
             response = {'success': False,
                         'error': 'Need To create Album before uploading photo'}
             response_status = 400
