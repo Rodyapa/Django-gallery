@@ -22,8 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 from core.utils import get_generated_secret_key
 
-generated_secret_key = get_generated_secret_key()
-SECRET_KEY = generated_secret_key
+SECRET_KEY = get_generated_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG_IS_ON') == 'True'
