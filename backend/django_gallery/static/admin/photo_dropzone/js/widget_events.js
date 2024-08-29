@@ -18,7 +18,7 @@ window.ExchangeHubV1 = {
     const dropzone_text_instruction = document.querySelector('div[class=dropzone-text-instruction]');
     const imageInputAccept = '.png, .jpeg, .jpg';
     const sizeLimits = {
-      image: 40 * 1024 * 1024,
+      image: 10 * 1024 * 1024,
     };
     const maxPhotoAmount = 30;
     const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
@@ -40,6 +40,7 @@ window.ExchangeHubV1 = {
     dropzone_container.addEventListener('drop', handleDrop, false)
 
     dropzone_container.addEventListener('click', async (event) => {
+        deleteErrorMessage(error);
         if (event.target.matches('.cancel-button')) {
           let id_to_delete = event.target.dataset.fileId;
           removeImageFromonUploadFiles(id_to_delete);
@@ -47,7 +48,6 @@ window.ExchangeHubV1 = {
           let files = await getFilesFromBrowseMenu();
           uploadFiles(files);
         }
-        deleteErrorMessage(error);
         ShowHideTextInstruction();
       });
     
