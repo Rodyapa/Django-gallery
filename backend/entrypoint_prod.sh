@@ -1,5 +1,5 @@
 
-cd django-gallery/
+cd django_gallery/
 python manage.py makemigrations --no-input
 python manage.py migrate --no-input
 python manage.py create_default_superuser
