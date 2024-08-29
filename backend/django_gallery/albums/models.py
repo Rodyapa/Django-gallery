@@ -14,7 +14,7 @@ class Section(models.Model):
         verbose_name=_("Section's title"),
         null=False,
         blank=False
-        )
+    )
     parent_section = models.ForeignKey(
         to='self',
         on_delete=models.SET_NULL,
@@ -44,8 +44,8 @@ class Section(models.Model):
     def clean(self):
         if self.is_the_highest_section and self.parent_section:
             raise ValidationError(_(
-                            _("Highest section cannot have parent section.")
-                    ))
+                _("Highest section cannot have parent section.")
+            ))
         return super().clean()
 
 
@@ -54,7 +54,7 @@ class Album(models.Model):
     title = models.CharField(
         max_length=MAX_CHAR_FIELD,
         verbose_name="Album's title",
-        )
+    )
     slug = models.SlugField(
         max_length=MAX_CHAR_FIELD,
         unique=True,
@@ -99,7 +99,7 @@ class Album(models.Model):
     class Meta:
         verbose_name = _("Album")
         verbose_name_plural = _("Albums")
-        ordering = ["title",]
+        ordering = ["title", ]
 
     def clean(self):
         if self.section:  # if section provided it will written in slug
@@ -145,7 +145,7 @@ class YearDividedAlbum(Album):
         verbose_name_plural = "Albums (Year divided)"
         verbose_name = "Album"
 
-    
+
 class AlbumTemplate(models.Model):
     TEMPLATE_NAMES = {
         "year_sorted": _("year sorted"),
@@ -168,7 +168,7 @@ class AlbumSubcategory(models.Model):
         null=False,
         blank=False,
         validators=(CharFieldValidator,)
-        )
+    )
     album = models.ForeignKey(
         to=Album,
         on_delete=models.CASCADE,
@@ -184,7 +184,7 @@ class AlbumSubcategory(models.Model):
 
     def __str__(self) -> str:
         return self.title
-    
+
     class Meta:
-        ordering = ["order",]
+        ordering = ["order", ]
         verbose_name_plural = 'Album Subcategories'

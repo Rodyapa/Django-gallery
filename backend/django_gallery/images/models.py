@@ -58,11 +58,11 @@ class Photo(SortableMixin):
     class Meta:
         verbose_name = _("Photo")
         verbose_name_plural = _("Photos")
-        ordering = ['order',]
+        ordering = ['order', ]
 
     def __str__(self):
         return str(self.title) if self.title else str(self.id)
-    
+
     def save(self, *args, **kwargs):
         """Resizing given image before saving"""
         if (

@@ -4,7 +4,6 @@ from albums.models import AlbumSubcategory
 from images.models import Photo
 
 
-
 @receiver(post_delete, sender=AlbumSubcategory)
 def update_photos_on_category_delete(sender, instance, **kwargs):
     '''When album subcategory deleted - all photos in this category

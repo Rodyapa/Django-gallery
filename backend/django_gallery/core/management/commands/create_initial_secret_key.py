@@ -1,8 +1,7 @@
 from pathlib import Path
 from django.core.management.base import BaseCommand
-from django.core.management.utils import get_random_secret_key  
+from django.core.management.utils import get_random_secret_key
 from django.conf import settings
-import os
 
 
 class Command(BaseCommand):
@@ -22,6 +21,14 @@ class Command(BaseCommand):
 
             with open(secret_file_path, 'w') as secret_file:
                 secret_file.write(f'SECRET_KEY={secret_key}')
-            self.stdout.write(self.style.SUCCESS('SECRET_KEY: secret key was written in the created_config!'))
+            self.stdout.write(
+                self.style.SUCCESS(
+                    'SECRET_KEY: secret key was written in the created_config!'
+                )
+            )
         else:
-            self.stdout.write(self.style.SUCCESS('SECRET_KEY: file with secret key is already created!'))
+            self.stdout.write(
+                self.style.SUCCESS(
+                    'SECRET_KEY: file with secret key is already created!'
+                )
+            )

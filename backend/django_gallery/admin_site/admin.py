@@ -1,8 +1,6 @@
-from typing import Any
 from django.contrib import admin
 from django.conf import settings
-from django.db.models.query import QuerySet
-from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.urls.resolvers import URLPattern
 from albums.models import (Section, Album, SubcategoryDividedAlbum,
                            YearDividedAlbum, AlbumTemplate, AlbumSubcategory,
@@ -11,13 +9,11 @@ from images.models import Photo
 from django.utils.translation import gettext as _
 from django.utils.html import format_html
 from django.urls import reverse, path
-from django.template.response import TemplateResponse
 from .admin_forms import AlbumForm
-from django.shortcuts import get_object_or_404, render
 from django import forms
 from admin_site.form_fields import JSModulePath
-from django.db.models import Max
 from datetime import date
+
 
 class StaffSite(admin.AdminSite):
     site_header = f"{settings.SITE_TITLE} administration"
@@ -43,10 +39,14 @@ class SectionAdmin(admin.ModelAdmin):
     @admin.display(empty_value=_("ROOT SECTION"))
     def view_parent_section(self, obj):
         if obj.parent_section:
-            url = reverse('admin:albums_section_change', args = [obj.parent_section.id])
+            url = reverse('admin:albums_section_change',
+                          args=[obj.parent_section.id]
+                          )
             return format_html("<a href='{}'>{}</a>", url, obj.parent_section)
         else:
-            url = reverse('admin:albums_section_change', args = [obj.id])
+            url = reverse('admin:albums_section_change',
+                          args=[obj.id]
+                          )
             return format_html("<a href='{}'>{}</a>", url, _('ROOT SECTION'))
 
 
@@ -66,7 +66,9 @@ class PhotoAdmin(admin.ModelAdmin):
     list_display = ['image_preview', "title", 'album']
 
     def image_preview(self, obj):
-        return format_html('<img src="{}" class="image-preview"/>'.format(obj.image.url))
+        return format_html(
+            '<img src="{}" class="image-preview"/>'.format(obj.image.url)
+        )
     image_preview.short_description = 'image preview'
 
     class Media:
@@ -85,7 +87,7 @@ class PhotoAlbumInlineBase(admin.options.InlineModelAdmin):
         "is_published",
         "order",
     ]
-    readonly_fields = ['image_preview',]
+    readonly_fields = ['image_preview', ]
 
     class Media:
         css = {
@@ -94,7 +96,9 @@ class PhotoAlbumInlineBase(admin.options.InlineModelAdmin):
 
     def image_preview(self, obj):
         '''Add field of image preview to the html page.'''
-        return format_html('<img src="{}" class="image-preview"/>'.format(obj.image.url))
+        return format_html(
+            '<img src="{}" class="image-preview"/>'.format(obj.image.url)
+        )
     image_preview.short_description = 'image preview'
 
     def get_formset(self, request, obj=None, **kwargs):
@@ -102,7 +106,7 @@ class PhotoAlbumInlineBase(admin.options.InlineModelAdmin):
         form = formset.form
 
         # Set the 'order' field widget to HiddenInput
-        form.base_fields['order'].widget = forms.HiddenInput()      
+        form.base_fields['order'].widget = forms.HiddenInput()
 
         return formset
 
@@ -110,7 +114,7 @@ class PhotoAlbumInlineBase(admin.options.InlineModelAdmin):
 class PhotoSimpleAlbumInline(PhotoAlbumInlineBase):
     class Media:
         js = [JSModulePath('/admin/photo_sortzone/js/dynamic_sortzone.js'),
-        ]
+              ]
 
 
 class PhotoYearDividedAlbumInline(PhotoAlbumInlineBase):
@@ -123,7 +127,7 @@ class PhotoYearDividedAlbumInline(PhotoAlbumInlineBase):
     ]
 
     class Media:
-        js = [JSModulePath('/admin/photo_sortzone/js/load_year_template.js'),]
+        js = [JSModulePath('/admin/photo_sortzone/js/load_year_template.js'), ]
 
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj, **kwargs)
@@ -136,7 +140,7 @@ class PhotoYearDividedAlbumInline(PhotoAlbumInlineBase):
 
 class AlbumAdminBase(admin.ModelAdmin):
     model = Album
-    readonly_fields = ['slug',]
+    readonly_fields = ['slug', ]
     form = AlbumForm
 
     class Meta:
@@ -163,10 +167,6 @@ class AlbumAdminBase(admin.ModelAdmin):
         '''View that procede photo uploading.
         This view procede single photo uploading
         '''
-
-        context = dict(
-            self.admin_site.each_context(request),
-        )
         if object_id != 'None':
             album = Album.objects.get(id=object_id)
         if request.method == "POST":
@@ -181,7 +181,7 @@ class AlbumAdminBase(admin.ModelAdmin):
                     selected_category = AlbumSubcategory.objects.get(
                         id=selected_category_id
                     )
-                except (AlbumSubcategory.DoesNotExist, ValueError) as e:
+                except (AlbumSubcategory.DoesNotExist, ValueError):
                     selected_category = None
                 try:
                     selected_year = int(selected_year)
@@ -190,10 +190,10 @@ class AlbumAdminBase(admin.ModelAdmin):
                     todays_day = todays_date.day
                     photo_date = date(year=selected_year, month=todays_month,
                                       day=todays_day)
-                except ValueError as e:
+                except ValueError:
                     photo_date = date.today()
                 try:
-                    new_photo = Photo.objects.create(
+                    Photo.objects.create(
                         image=uploaded_file,
                         subcategory=selected_category,
                         album=album,
@@ -202,13 +202,14 @@ class AlbumAdminBase(admin.ModelAdmin):
                     response = {'success': True,
                                 'error': None}
                     response_status = 200
-                except Exception as e:
+                except Exception:
                     response = {'success': False,
-                                'error': 'Error when uploading photo on server'}
+                                'error': 'Error when uploading photo on server'
+                                }
                     response_status = 500
             else:
                 response = {'success': False,
-                            'error': f'Incorrect form'}
+                            'error': 'Incorrect form'}
                 response_status = 400
         else:
             response = {'success': False,
@@ -220,16 +221,14 @@ class AlbumAdminBase(admin.ModelAdmin):
 @admin.register(SimpleAlbum, site=admin_staff_site)
 class SimpleAlbumAdmin(AlbumAdminBase):
     model = SimpleAlbum
-    inlines = [PhotoSimpleAlbumInline,]
+    inlines = [PhotoSimpleAlbumInline, ]
 
     def get_queryset(self, request):
         qs = super(AlbumAdminBase, self).get_queryset(request)
         return qs.filter(template=None)
 
-
-
-
 #  Subcategory Divided Album Page related Classes
+
 
 class PhotoSubcategoryDividedAlbumInline(PhotoAlbumInlineBase):
     fields = [
@@ -244,7 +243,8 @@ class PhotoSubcategoryDividedAlbumInline(PhotoAlbumInlineBase):
     class Media:
         js = [JSModulePath(
             '/admin/photo_sortzone/js/load_subcategory_template.js'
-        ),]
+        ),
+        ]
 
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj, **kwargs)
@@ -255,6 +255,7 @@ class PhotoSubcategoryDividedAlbumInline(PhotoAlbumInlineBase):
     def has_add_permission(self, request, obj):
         return False
 
+
 @admin.register(YearDividedAlbum, site=admin_staff_site)
 class YearDividedAlbumAdmin(AlbumAdminBase):
     model = YearDividedAlbum
@@ -262,7 +263,8 @@ class YearDividedAlbumAdmin(AlbumAdminBase):
 
     def get_queryset(self, request):
         qs = super(AlbumAdminBase, self).get_queryset(request)
-        year_sorted_template_id = AlbumTemplate.objects.get(title='year_sorted').id
+        year_sorted_template_id = AlbumTemplate.objects.get(
+            title='year_sorted').id
         return qs.filter(template=year_sorted_template_id)
 
 
@@ -286,6 +288,7 @@ class SubcategoryInline(admin.StackedInline):
     def has_add_permission(self, request, obj):
         return False
 
+
 @admin.register(SubcategoryDividedAlbum, site=admin_staff_site)
 class SubcategoryDividedAlbumAdmin(AlbumAdminBase):
     model = SubcategoryDividedAlbum
@@ -294,17 +297,21 @@ class SubcategoryDividedAlbumAdmin(AlbumAdminBase):
 
     def get_queryset(self, request):
         qs = super(AlbumAdminBase, self).get_queryset(request)
-        subdivided_template_id = AlbumTemplate.objects.get(title='subdivided').id
+        subdivided_template_id = AlbumTemplate.objects.get(
+            title='subdivided').id
         return qs.filter(template=subdivided_template_id)
+
 
 @admin.register(AlbumSubcategory, site=admin_staff_site)
 class AlbumSubcategoryAdmin(admin.ModelAdmin):
     model = AlbumSubcategory
-    exclude =('order',)
+    exclude = ('order', )
     list_display = ('title', 'album')
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "album": 
-            subdivided_template_id = AlbumTemplate.objects.get(title='subdivided').id
-            kwargs["queryset"] = Album.objects.filter(template=subdivided_template_id)  # Only show active authors
+        if db_field.name == "album":
+            subdivided_template_id = AlbumTemplate.objects.get(
+                title='subdivided').id
+            kwargs["queryset"] = Album.objects.filter(
+                template=subdivided_template_id)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)

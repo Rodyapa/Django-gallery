@@ -1,7 +1,5 @@
 from django.db import models
-from django import VERSION
 from django.contrib.contenttypes.models import ContentType
-from django.db import models
 
 
 class SortableMixin(models.Model):
@@ -41,14 +39,18 @@ class SortableMixin(models.Model):
         # get the model field defined by `Meta.ordering`
         self.order_field = self._meta.get_field(self.order_field_name)
 
-        integer_fields = (models.PositiveIntegerField, models.IntegerField,
+        integer_fields = (
+            models.PositiveIntegerField, models.IntegerField,
             models.PositiveSmallIntegerField, models.SmallIntegerField,
-            models.BigIntegerField,)
+            models.BigIntegerField,
+        )
 
         # check that the order field is an integer type
-        if not self.order_field or not isinstance(self.order_field,
+        if not self.order_field or not isinstance(
+                self.order_field,
                 integer_fields):
-            raise NotImplementedError(u'You must define the field '
+            raise NotImplementedError(
+                u'You must define the field '
                 '`Meta.ordering` refers to, and it must be of type: '
                 'PositiveIntegerField, IntegerField, '
                 'PositiveSmallIntegerField, SmallIntegerField, '
@@ -65,9 +67,10 @@ class SortableMixin(models.Model):
         needs_default = self._state.adding
         if not getattr(self, self.order_field_name) and needs_default:
             try:
-                current_max = self.__class__.objects.filter(album=self.album).aggregate(
-                    models.Max(self.order_field_name))[self.order_field_name + '__max'] or 0
-
+                current_max = (
+                    self.__class__.objects.filter(album=self.album)
+                    .aggregate(models.Max(self.order_field_name))
+                    [self.order_field_name + '__max'] or 0)
                 setattr(self, self.order_field_name, current_max + 1)
             except (TypeError, IndexError):
                 pass

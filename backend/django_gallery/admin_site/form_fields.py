@@ -1,8 +1,4 @@
 from django import forms
-from django.utils.safestring import mark_safe
-from django.forms.renderers import TemplatesSetting
-from django.template import Context, Template
-from django.template.loader import get_template
 from django.utils.html import html_safe
 
 

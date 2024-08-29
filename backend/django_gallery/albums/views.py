@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404, render
-from adminsortable2.admin import SortableAdminMixin
 from albums.models import Album
 from images.models import Photo
 from django.views import View
@@ -22,8 +21,8 @@ class AlbumView(View):
     def get_template(self, template_name=None):
         templates_folder_relative_path = 'albums'
         if template_name is not None:
-            return (templates_folder_relative_path
-                    + '/' + template_name + '.html')
+            return (templates_folder_relative_path +
+                    '/' + template_name + '.html')
         return 'albums/base_album.html'
 
     def get_photos(self, album, template_name):
@@ -35,7 +34,7 @@ class AlbumView(View):
                 if photo.date:
                     year_of_photo = photo.date.year
                     if year_of_photo not in photos_by_year:
-                        photos_by_year[year_of_photo] = [photo,]
+                        photos_by_year[year_of_photo] = [photo, ]
                     else:
                         photos_by_year[year_of_photo].append(photo)
                 else:
@@ -51,8 +50,10 @@ class AlbumView(View):
                 photo_subcategory = photo.subcategory
                 if photo.subcategory:
                     if photo_subcategory in photos_by_subcategories:
-                        photos_by_subcategories[photo_subcategory].append(photo)
+                        photos_by_subcategories[photo_subcategory].append(
+                            photo
+                        )
                     else:
-                        photos_by_subcategories[photo_subcategory] = [photo,]
+                        photos_by_subcategories[photo_subcategory] = [photo, ]
             return photos_by_subcategories
         return photos

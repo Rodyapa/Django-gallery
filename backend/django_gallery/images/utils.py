@@ -75,16 +75,20 @@ def resize_uploaded_image(image, max_width=1920, max_height=1080):
 def add_watermark(image):
     # First. Open Image.
     if isinstance(image, InMemoryUploadedFile):
-        memory_image = BytesIO(image.read())    # read as byte stream
-        pil_image = PilImage.open(memory_image).convert("RGBA")     # Identifies file and make converted copy
-        pil_image = apply_exif_orientation(pil_image)
-    
-    elif isinstance(image, TemporaryUploadedFile):
-        path = image.temporary_file_path()  # Return full path of the image
-        pil_image = PilImage.open(path).convert("RGBA")     # Identifies file and make converted copy
+        # read as byte stream
+        memory_image = BytesIO(image.read())
+        # Identifies file and make converted copy
+        pil_image = PilImage.open(memory_image).convert("RGBA")
         pil_image = apply_exif_orientation(pil_image)
 
-    img_format = os.path.splitext(image.name)[1][1:].upper()    # Return file format from name of the file
+    elif isinstance(image, TemporaryUploadedFile):
+        path = image.temporary_file_path()  # Return full path of the image
+        # Identifies file and make converted copy
+        pil_image = PilImage.open(path).convert("RGBA")
+        pil_image = apply_exif_orientation(pil_image)
+
+    # Return file format from name of the file
+    img_format = os.path.splitext(image.name)[1][1:].upper()
     img_format = "JPEG" if img_format == "JPG" else img_format
     # Second. Build and draw watermark.
     txt = build_watermark_layer(pil_image)
@@ -97,7 +101,8 @@ def add_watermark(image):
         new_image = BytesIO()  # Open byte stream object
         # Save new image back to the memory
         combined.save(new_image, format=img_format)
-        # getvalue returns bytes containing image. And they are passed to the ContentFile to make a file instance.
+        # getvalue returns bytes containing image.
+        # And they are passed to the ContentFile to make a file instance.
         new_image = ContentFile(new_image.getvalue())
         # save image as Django InMemoryUploadedFile.
         return InMemoryUploadedFile(
@@ -112,6 +117,7 @@ def add_watermark(image):
         combined.save(path)
         image.size = os.stat(path).st_size
     return image
+
 
 def build_watermark_layer(pil_image):
     w, h = pil_image.size
@@ -130,13 +136,14 @@ def build_watermark_layer(pil_image):
         [x, y] for x in range(
             watermark_area_horizontal[0],
             watermark_area_horizontal[1],
-            (watermark_area_horizontal[1]-watermark_area_horizontal[0])//10
-            ) for y in range(
-                watermark_area_vertical[0],
-                watermark_area_vertical[1],
-                (watermark_area_vertical[1]-watermark_area_vertical[0])//10
-            )
-        ]
+            (watermark_area_horizontal[1] - watermark_area_horizontal[0]) // 10
+        ) for y in range(
+            watermark_area_vertical[0],
+            watermark_area_vertical[1],
+            (watermark_area_vertical[1] - watermark_area_vertical[0]) // 10
+        )
+    ]
+
     watermark_area_sample_pixels_rgb_data = []
     # Get colors of fetched pixels
     for coordinate in watermark_area_sample_pixels:
