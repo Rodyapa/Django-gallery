@@ -171,53 +171,59 @@ class AlbumAdminBase(admin.ModelAdmin):
         '''
         if object_id != 'None':
             album = Album.objects.get(id=object_id)
-        if request.method == "POST":
-            form = AlbumForm(request.POST, request.FILES, instance=album)
-            form_validated = form.is_valid()
-            if form_validated:
-                uploaded_file = form.cleaned_data.get('upload_photos')[0]
-                selected_category_id = request.POST.get('selected_category')
-                selected_year = request.POST.get('specific_year')
-                try:
-                    selected_category_id = int(selected_category_id)
-                    selected_category = AlbumSubcategory.objects.get(
-                        id=selected_category_id
-                    )
-                except (AlbumSubcategory.DoesNotExist, ValueError):
-                    selected_category = None
-                try:
-                    selected_year = int(selected_year)
-                    todays_date = date.today()
-                    todays_month = todays_date.month
-                    todays_day = todays_date.day
-                    photo_date = date(year=selected_year, month=todays_month,
-                                      day=todays_day)
-                except ValueError:
-                    photo_date = date.today()
-                try:
-                    Photo.objects.create(
-                        image=uploaded_file,
-                        subcategory=selected_category,
-                        album=album,
-                        date=photo_date
-                    )
-                    response = {'success': True,
-                                'error': None}
-                    response_status = 200
-                except Exception:
+            if request.method == "POST":
+                form = AlbumForm(request.POST, request.FILES, instance=album)
+                form_validated = form.is_valid()
+                if form_validated:
+                    uploaded_file = form.cleaned_data.get('upload_photos')[0]
+                    selected_category_id = request.POST.get('selected_category')
+                    selected_year = request.POST.get('specific_year')
+                    try:
+                        selected_category_id = int(selected_category_id)
+                        selected_category = AlbumSubcategory.objects.get(
+                            id=selected_category_id
+                        )
+                    except (AlbumSubcategory.DoesNotExist, ValueError):
+                        selected_category = None
+                    try:
+                        selected_year = int(selected_year)
+                        todays_date = date.today()
+                        todays_month = todays_date.month
+                        todays_day = todays_date.day
+                        photo_date = date(year=selected_year, month=todays_month,
+                                        day=todays_day)
+                    except ValueError:
+                        photo_date = date.today()
+                    try:
+                        Photo.objects.create(
+                            image=uploaded_file,
+                            subcategory=selected_category,
+                            album=album,
+                            date=photo_date
+                        )
+                        response = {'success': True,
+                                    'error': None}
+                        response_status = 200
+                    except Exception as e:
+                        error = e if settings.DEBUG else 'Error making a photo'
+                        response = {'success': False,
+                                    'error': f'{error}'
+                                    }
+                        response_status = 500
+                else:
                     response = {'success': False,
-                                'error': 'Error when uploading photo on server'
-                                }
-                    response_status = 500
+                                'error': 'Incorrect form'}
+                    response_status = 400
             else:
                 response = {'success': False,
-                            'error': 'Incorrect form'}
-                response_status = 400
-        else:
+                            'error': f'{request.method} Method not allowed'}
+                response_status = 405
+            return JsonResponse(response, status=response_status)
+        else: 
             response = {'success': False,
-                        'error': f'{request.method} Method not allowed'}
-            response_status = 405
-        return JsonResponse(response, status=response_status)
+                        'error': 'Need To create Album before uploading photo'}
+            response_status = 400
+            return JsonResponse(response, status=response_status)
 
 
 @admin.register(SimpleAlbum, site=admin_staff_site)
