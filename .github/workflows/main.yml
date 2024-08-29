@@ -57,8 +57,8 @@ jobs:
       - name: Push To DockerHub
         uses: docker/build-push-action@v4
         with:
-          context: backend
-          file: Dockerfile.prod
+          context: ./backend/
+          file: ./backend/Dockerfile.prod
 
           push: true
           tags: rodypa/django-gallery-backend:production
