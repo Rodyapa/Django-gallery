@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', ()=> {
     bigPicElement = document.getElementById('big_pic');
     if (bigPicElement) {
         bigPicElement.addEventListener('touchstart', function(event) {
-            touchstartX = event.screenX;
-            touchstartY = event.screenY;
-        }, false);
+            touchstartX = event.changedTouches[0].screenX;
+            touchstartY = event.changedTouches[0].screenY;
+        });
         bigPicElement.addEventListener('touchend', function(event) {
-            touchendX = event.screenX;
-            touchendY = event.screenY;
+            touchendX = event.changedTouches[0].screenX;
+            touchendY = event.changedTouches[0].screenY;
             SwipeHandler();
-        }, false);
+        });
     }
 
 //* Arrow key processing*/
