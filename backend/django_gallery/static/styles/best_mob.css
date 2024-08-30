@@ -37,3 +37,10 @@ h1 {
 div#big_pic.picplace {
     z-index: 10000;
 }
+
+p {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    max-width: 70%;
+}
