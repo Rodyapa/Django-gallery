@@ -44,7 +44,7 @@ div#big_pic.picplace {
     z-index: 10000;
 }
 
-p {
+p.album-description-text {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
