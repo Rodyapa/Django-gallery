@@ -1,25 +1,34 @@
-window.addEventListener("keydown", keydownHandler, true);
 
+let bigPicElement; /** Element with Open Photo Element */
+
+let touchstartX = 0;
+let touchstartY = 0;
+let touchendX = 0;
+let touchendY = 0; 
+
+document.addEventListener('DOMContentLoaded', ()=> {
+    bigPicElement = document.getElementById('big_pic');
+    if (bigPicElement) {
+        bigPicElement.addEventListener('touchstart', function(event) {
+            touchstartX = event.screenX;
+            touchstartY = event.screenY;
+        }, false);
+        bigPicElement.addEventListener('touchend', function(event) {
+            touchendX = event.screenX;
+            touchendY = event.screenY;
+            SwipeHandler();
+        }, false);
+    }
+
+//* Arrow key processing*/
+window.addEventListener("keydown", keydownHandler, true);
+})
 function keydownHandler(event) {
     if (event.key == "ArrowRight") {
-        let elemdiv = document.getElementById("big_pic");
-        let current_pic_number = elemdiv.firstElementChild.dataset.number;
-        current_pic_number++;
-        let next_img = document.querySelector(`img[data-number="${current_pic_number}"]`);
-        if (next_img) {
-            opener(next_img);
-        }
+        goToNextPhoto();
     }
     if (event.key == "ArrowLeft") {
-        let elemdiv = document.getElementById("big_pic");
-        let current_pic_number = elemdiv.firstElementChild.dataset.number;
-        current_pic_number--;
-        let next_img = document.querySelector(`img[data-number="${current_pic_number}"]`);
-        if (next_img) {
-            opener(next_img);
-        } else {
-            // предыдущей картинки нет
-        }
+        goToPreviousPhoto();
     }
 
     if (event.key == "Escape") {
@@ -40,3 +49,39 @@ function closer(elem) {
     elem.style.display = "none";
 }
 
+
+//* Touchscreen swipe processing*/
+
+function SwipeHandler() {
+    const distance = 50 //Minimum distance for the swipe to work
+    if (touchendX < touchstartX && (touchstartX - touchendX) > distance ) { //* Swiped left*/
+        goToNextPhoto();
+    }
+    if (touchendX > touchstartX && (touchendX - touchstartX) > distance) { //* Swiped right*/
+        goToPreviousPhoto();
+    }
+}
+//* Common functions*/
+
+function goToNextPhoto () {
+    let elemdiv = document.getElementById("big_pic");
+        let current_pic_number = elemdiv.firstElementChild.dataset.number;
+        current_pic_number++;
+        let next_img = document.querySelector(`img[data-number="${current_pic_number}"]`);
+        if (next_img) {
+            opener(next_img);
+        }
+}
+
+
+function goToPreviousPhoto () {
+    let elemdiv = document.getElementById("big_pic");
+        let current_pic_number = elemdiv.firstElementChild.dataset.number;
+        current_pic_number--;
+        let next_img = document.querySelector(`img[data-number="${current_pic_number}"]`);
+        if (next_img) {
+            opener(next_img);
+        } else {
+            // предыдущей картинки нет
+        }
+}
