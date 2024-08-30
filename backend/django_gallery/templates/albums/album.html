@@ -1,31 +1,10 @@
+{% extends "albums/base_album.html" %}
 {% load static %}
-<!DOCTYPE html >
-<html lang="ru">
-<head>
-	<title>{{ album.album_title }}</title>
-	{% include "includes/head_for_all.html" %}
-	<link rel="stylesheet" media="screen and (min-width: 770px)" href="{% static '/styles/best.css' %}">
-	<link rel="stylesheet" media="screen and (max-width: 770px)" href="{% static '/styles/best_mob.css'%}">
-	<link rel="stylesheet" href="{% static '/styles/scroll.css' %}">
-	<script src="{% static '/js/photoengine.js' %}"></script>
-</head>
 
-<body>
-	{% include 'includes/main_menu.html'%}
-	{#{% include 'includes/scroll_button.html'%}#}
-
-	<h1>{{ album.title }}</h1>
-	
-	<section>
-		<p class="first_best">
-			{% for photo in photos %}
-				<img src={{photo.image.url}} onclick="opener(this)" data-number="$x">
-			{% endfor%}
-		</p>
-	</section>
-
-	<div id="big_pic" class="picplace" onclick="closer(this)">
-		<img src="">
-	</div>
-</body>
-</html>
+{% block photo_section %}
+    <p class="first_best">
+        {% for photo in photos %}
+            <img src={{photo.image.url}} onclick="opener(this)" data-number="$x">
+        {% endfor%}
+    </p>
+{% endblock %}

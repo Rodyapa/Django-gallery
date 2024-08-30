@@ -24,7 +24,7 @@ class AlbumView(View):
         if template_name is not None:
             return (templates_folder_relative_path +
                     '/' + template_name + '.html')
-        return 'albums/base_album.html'
+        return 'albums/album.html'
 
     def get_photos(self, album, template_name):
         photos = Photo.objects.filter(album=album, is_published=True)

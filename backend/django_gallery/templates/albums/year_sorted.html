@@ -1,6 +1,5 @@
 {% extends "albums/base_album.html" %}
-{% block content %}
-    <section>
+{% block photo_section %}
             {% for year, photos_of_year in photos.items %}
                 <h2>{{ year }}</h2>
                 <p class="first_best">
@@ -9,5 +8,4 @@
                 {% endfor %}
             {% endfor%}
         </p>
-    </section>
 {% endblock %}

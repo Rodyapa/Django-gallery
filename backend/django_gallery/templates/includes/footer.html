@@ -1,10 +1,11 @@
+{% load static %}
 <footer class="page__footer footer">
 	<div class="grid grid--full">
 		<div class="footer__container">
 			<div class="flex-item item-2">
-				<a href="{{ site_appearence.vk_link }}" target="blank"><img src="/static/dis/fa-vk.png" alt="" width="21"></a>
-				<a href="{{ site_appearence.ints_link }}" target="blank"><img src="/static/dis/fa-instagram.png" alt="" width="21"></a>
-				<a href="{{ site_appearence.tg_link }}" target="blank"><img src="/static/dis/fa-telegram.png" alt="" width="21"></a>
+				<a href="{{ site_appearence.vk_link }}" target="blank"><img src="{% static '/dis/fa-vk.png' %}" alt="" width="21"></a>
+				<a href="{{ site_appearence.ints_link }}" target="blank"><img src="{% static '/dis/fa-instagram.png' %}" alt="" width="21"></a>
+				<a href="{{ site_appearence.tg_link }}" target="blank"><img src="{% static '/dis/fa-telegram.png' %}" alt="" width="21"></a>
 				<div class="footer__copyright">{{ site_appearence.copyright}}</div>
 			</div>
 			<div class="flex-item item-3">

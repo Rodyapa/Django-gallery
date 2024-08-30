@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html >
+<html lang="ru">
+   <!-- Head --> 
+<head>
+{% block head%}
+	{% include "includes/head_for_all.html" %}
+{% endblock %}
+</head>
+    <!-- END Head --> 
+
+    <!-- Body --> 
+<body>
+	{% include 'includes/main_menu.html'%}
+    <!-- CONTENT -->
+    {% block content%}
+    {% endblock  %}
+    <!-- END CONTENT -->
+
+    <!-- FOOTER -->
+    {% include "includes/footer.html" %}
+    <!-- END FOOTER -->
+
+     <!-- MODAL -->
+    {% block modal %}
+    {% endblock %}
+    <!-- END MODAL -->
+</body>
+    <!-- END Body --> 
+</html>

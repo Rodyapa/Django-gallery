@@ -54,11 +54,6 @@
 .photo-selected-to-move {
     background-color: rgb(247, 200, 114);
 }
-.submit-row {
-    position: sticky;
-    top: 0px;
-    z-index: 99
-}
 
 .dropzone-controller {
     display: flex;

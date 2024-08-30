@@ -145,6 +145,11 @@ class AlbumAdminBase(admin.ModelAdmin):
     readonly_fields = ['slug', ]
     form = AlbumForm
 
+    class Media:
+        css = {
+            "all": ["admin/styles/admin_albums.css", ],
+        }
+
     class Meta:
         abstract = True
 
