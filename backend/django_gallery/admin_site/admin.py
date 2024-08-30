@@ -75,7 +75,7 @@ class PhotoAdmin(admin.ModelAdmin):
 
     class Media:
         css = {
-            "all": ["admin/styles/sorting_zone.css", 
+            "all": ["admin/styles/sorting_zone.css",
                     "admin/styles/admin_photos.css"],
         }
 
