@@ -7,6 +7,12 @@ h1 {
     background-size: cover;
 }
 
+h4 {
+    text-align: center;
+    margin-top: 30px;
+    padding: 0;
+  }
+  
 .first_best img {
     border: 2px solid rgb(126, 126, 126); /* Рамка вокруг фотографии */
     padding: 10px; /* Расстояние от картинки до рамки */
