@@ -4,7 +4,7 @@
 {% block photo_section %}
     <p class="first_best">
         {% for photo in photos %}
-            <img src={{photo.image.url}} onclick="opener(this)" data-number="$x">
+            <img src={{photo.image.url}} onclick="opener(this)" data-number="{{ forloop.counter0 }}">
         {% endfor%}
     </p>
 {% endblock %}

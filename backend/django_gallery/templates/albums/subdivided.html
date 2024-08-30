@@ -1,11 +1,11 @@
 {% extends "albums/base_album.html" %}
 {% block photo_section %}
-            {% for subcategory, photos_of_subcategory in photos.items %}
-                <h4>{{ subcategory }}</h4>
-                <p class="first_best">
+        {% for subcategory, photos_of_subcategory in photos.items %}
+            <h4>{{ subcategory }}</h4>
+            <p class="first_best">
                 {% for photo in photos_of_subcategory %}
-                    <img src={{photo.image.url}} onclick="opener(this)" data-number="$x">
+                    <img src="{{ photo.image.url }}" onclick="opener(this)" data-number="{{ photo.order_dataset }}">
                 {% endfor %}
-            {% endfor%}
-                 </p>
+            </p>
+        {% endfor %}
 {% endblock %}
