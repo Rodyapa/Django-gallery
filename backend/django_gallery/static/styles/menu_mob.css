@@ -51,7 +51,7 @@ span {
 
 .menu-menu {
 	left: 4px;
-	background-image: url(/dis/List.svg);
+	background-image: url(/static/dis/List.svg);
 	background-position: center;
 }
 
