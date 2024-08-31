@@ -88,21 +88,39 @@ function AddDropPhotoCardListener(innerSortzone) {
     
 }
 function AddOrderAutoSolver(innerSortzone) {
+    let previousChildren = new Set(innerSortzone.children);
+    let newlyAddedChildren = new Set();
+
     const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
             if (mutation.type === 'childList') {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('photo-card')) {
-                        setLatestCardOrder(innerSortzone, node);
+                mutation.removedNodes.forEach((node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        previousChildren.delete(node);
                     }
                 });
+
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('photo-card')) {
+                        // Only call setLatestCardOrder if the node is truly new
+                        if (!previousChildren.has(node) && !newlyAddedChildren.has(node)) {
+                            setLatestCardOrder(innerSortzone, node);
+                        }
+                        newlyAddedChildren.add(node);
+                    }
+                });
+
+                // Update the previousChildren set
+                previousChildren = new Set(innerSortzone.children);
+                newlyAddedChildren.clear(); // Clear the newly added set for the next cycle
             }
         }
     });
-    const config = { childList: true };
 
+    const config = { childList: true };
     observer.observe(innerSortzone, config);
 }
+
 function moveCardToAnotherSubcategory(event) {
     let target_element = event.target
     if ((event.target.closest('.photo-card'))) {

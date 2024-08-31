@@ -3,6 +3,7 @@ from random import randint
 from core.validators import CharFieldValidator
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Max
 from django.utils.translation import gettext as _
 from django_gallery.constants import MAX_CHAR_FIELD
 from slugify import slugify
@@ -176,7 +177,7 @@ class AlbumSubcategory(models.Model):
         related_name='subcategories',
         verbose_name=_('Album'),
     )
-    order = models.PositiveIntegerField(
+    order = models.IntegerField(
         verbose_name=_('Order'),
         null=False,
         blank=False,
@@ -189,3 +190,15 @@ class AlbumSubcategory(models.Model):
     class Meta:
         ordering = ["order", ]
         verbose_name_plural = 'Album Subcategories'
+
+    def save(self, *args, **kwargs):
+        new_order = self.get_latest_order_field()
+        new_order = (new_order or 0) + 1
+        self.order = new_order
+        super(AlbumSubcategory, self).save(*args, **kwargs)
+
+    def get_latest_order_field(self, *args, **kwargs):
+        """Get the latest order field among subcategories of album"""
+        latest_order = self.album.subcategories.aggregate(
+            Max('order'))['order__max']
+        return latest_order

@@ -50,7 +50,7 @@ class Photo(SortableMixin):
         blank=True,
         null=True
     )
-    order = models.PositiveIntegerField(
+    order = models.IntegerField(
         default=0, blank=False, null=False, db_index=True
     )
 
