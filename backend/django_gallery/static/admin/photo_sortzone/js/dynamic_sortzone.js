@@ -1,11 +1,7 @@
 window.photoSortingZone = {
     'sorting_zone': null,
     'dragElement': null
-    };
-
-import {
-    validateSubcategoryName
-} from '/static/admin/photo_dropzone/js/validators.js';
+};
 
 export let sorting_zone = window.photoSortingZone['sorting_zone'];
 export let dragElement = window.photoSortingZone['dragElement']; 
@@ -111,9 +107,6 @@ function getCardOrderField(card) {
     return getMostNestedElement(card.querySelector(".field-order"))
 };
 
-function getCardYearField(card) {
-    return getMostNestedElement(card.querySelector(".field-date"))
-};
 
 function getCardsBetween(startCard, endCard) {
     const parentElement = startCard.parentElement;
@@ -168,90 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
      functionToLoad();
  };
  */
-
- 
- 
- function loadRegularTemplate() {
-     // Delete all year-headers 
- 
-     //delete additional dividing divs in sorting zone. "Unpack" all photo-cards
-     //into main sorting zone.
-     let additionalDividers = sorting_zone.querySelectorAll('.additional-divider');
- 
-     for (let divider of additionalDividers) {
-         let relatedPhotoCards = divider.querySelectorAll('div.photo-card');
-         relatedPhotoCards.forEach(card => sorting_zone.append(card));
-         divider.style.display = 'none';
-     };
-     // delete additional buttons from sorting zone.
-     let additionalButtons = sorting_zone.querySelectorAll('.additional-button');
-     for (let button of additionalButtons ) {
-         button.style.display= 'none';
-     }
- };
- 
- 
- 
- function triggerSubcategoryButton() {
-     let dialogueWindow = document.getElementById('dialogueWindow');
-     let closeButton = dialogueWindow.querySelector(".close-button");
- 
-     dialogueWindow.style.display = "block";
-     // Close the modal when the close button is clicked
-     closeButton.onclick = function() {
-         dialogueWindow.style.display = "none";
-     }
- 
-     // Close the modal when clicking outside of the modal content
-     window.onclick = function(event) {
-         if (event.target == dialogueWindow) {
-             dialogueWindow.style.display = "none";
-         }
-     }
- 
-     // Optional: Add functionality for the confirm button
-     document.getElementById("confirmButton").onclick = function() {
-         //validate that written data is corect
-         let errorMessage = dialogueWindow.querySelector('.modal-error-message');
-         let newSubcategoryName=dialogueWindow.querySelector('.subcategory-name');
-         let dialogueWindowInput = newSubcategoryName.value 
-         let existentSubcategories = sorting_zone.querySelectorAll('.subcategory-header');
-         existentSubcategories = Array.from(existentSubcategories, node => node.textContent);
-         if (dialogueWindowInput == "") {
-             errorMessage.innerHTML = 'You must define subcategory name';
-             errorMessage.style.display ='block';
-         }
-         else if (existentSubcategories.includes(dialogueWindowInput)) {
-             errorMessage.innerHTML = 'This subcategory already exist';
-             errorMessage.style.display ='block';
-         }
-         else if (!validateSubcategoryName(dialogueWindowInput)) {
-             errorMessage.innerHTML = ('Subcategory name can accept only english and russian letters ' +
-                                       'and arabic numbers');
-             errorMessage.style.display ='block';
-         }
-         else {
-             addNewSubcategory(dialogueWindowInput);
-             dialogueWindow.style.display = "none";
-         }        
-     }
- };
- 
- function addNewSubcategory(subcategoryName) {
-    let newSubcategory = document.createElement('div');
-    newSubcategory.classList.add('additional-divider', 'subcategory-divider');
-    newSubcategory.id = (`subcategory-${subcategoryName.replace(/ /g, '-')}`);
-    newSubcategory.innerHTML = `<h3 class='subcategory-header divider-header'>${subcategoryName}</h3>`;
-    
-    newSubcategory.addEventListener('dragover', (event) => {
-        event.preventDefault(); // Allow drop
-    });
-    newSubcategory.addEventListener('drop', moveCardToAnotherZone);
-    sorting_zone.appendChild(newSubcategory);
- };
  
 
- export function moveCardToAnotherZone(event) {
+export function moveCardToAnotherZone(event) {
     if (!event.target.closest('.photo-card')){
         let target_element = event.target.closest('.additional-divider')
             if (dragElement.closest('.additional-divider') !== target_element) {
@@ -261,14 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
     }
     return false;
- }
-
-
- function extractSubcategory(inputString) {
-    const prefix = 'subcategory-';
-    const startIndex = prefix.length;
-    return inputString.substring(startIndex);
 }
+
 export function cascadeOrderChange(photoCard) {
     let parentSection = photoCard.parentElement;
     let moveableCardOrder = getCardOrderField(photoCard).value;
@@ -282,22 +188,4 @@ export function cascadeOrderChange(photoCard) {
             }
         }
     })
-}
-
-function findPreviousAdditionalDivider(currentElement) {
-    // Start with the previous sibling
-    let previousElement = currentElement.previousElementSibling;
-
-    // Loop until we find a match or run out of siblings
-    while (previousElement) {
-        // Check if the current previous sibling has the 'additional-divider' class
-        if (previousElement.classList.contains('additional-divider')) {
-            return previousElement; // Return the found element
-        }
-        // Move to the next previous sibling
-        previousElement = previousElement.previousElementSibling;
-    }
-
-    // Return null if no matching element is found
-    return null;
 }
