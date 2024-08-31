@@ -2,9 +2,7 @@
 let bigPicElement; /** Element with Open Photo Element */
 
 let touchstartX = 0;
-let touchstartY = 0;
 let touchendX = 0;
-let touchendY = 0; 
 
 document.addEventListener('DOMContentLoaded', ()=> {
     bigPicElement = document.getElementById('big_pic');
@@ -53,7 +51,7 @@ function closer(elem) {
 //* Touchscreen swipe processing*/
 
 function SwipeHandler() {
-    const distance = 50 //Minimum distance for the swipe to work
+    const distance = 70 //Minimum distance for the swipe to work
     if (touchendX < touchstartX && (touchstartX - touchendX) > distance ) { //* Swiped left*/
         goToNextPhoto();
     }
