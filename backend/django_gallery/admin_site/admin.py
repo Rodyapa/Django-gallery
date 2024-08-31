@@ -295,13 +295,13 @@ class SubcategoryInline(admin.StackedInline):
         css = {
             "all": ["admin/photo_sortzone/styles/subcategories.css", ],
         }
-
+    '''
     def get_formset(self, request, obj=None, **kwargs):
         formset = super().get_formset(request, obj, **kwargs)
         form = formset.form
         form.base_fields['order'].widget = forms.HiddenInput()
         return formset
-
+    '''
     def has_add_permission(self, request, obj):
         return False
 
