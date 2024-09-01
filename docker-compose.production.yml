@@ -3,6 +3,7 @@ volumes:
   static:
   media:
   created_config:
+  backups:
 
 services:
   db:
@@ -10,6 +11,7 @@ services:
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
+      - backups/db_backups:/db_backups
     healthcheck:
       test: ["CMD-SHELL","pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -26,6 +28,7 @@ services:
       - static:/backend_static
       - media:/app/django_gallery/media/
       - created_config:/app/django_gallery/django_gallery/created_config
+      - backups/backend_backups:/backend_backups
   gateway:
     depends_on:
       - backend
