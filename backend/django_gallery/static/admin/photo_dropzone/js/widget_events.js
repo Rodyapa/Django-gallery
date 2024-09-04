@@ -18,7 +18,7 @@ window.ExchangeHubV1 = {
     const dropzone_text_instruction = document.querySelector('div[class=dropzone-text-instruction]');
     const imageInputAccept = '.png, .jpeg, .jpg';
     const sizeLimits = {
-      image: 10 * 1024 * 1024,
+      image: 20 * 1024 * 1024,
     };
     const maxPhotoAmount = 30;
     const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
@@ -97,7 +97,7 @@ window.ExchangeHubV1 = {
     function startSDKWithFile(file) {
         if (!file) return;
         const maxSize = sizeLimits.image ?? 40 * 1024 * 1024;
-        if (validImageTypes.includes(file.type) && file.size <= maxSize && ExchangeHubV1.onUploadFiles.length < maxPhotoAmount) {
+        if (validImageTypes.includes(file.type) && <= maxSize && ExchangeHubV1.onUploadFiles.length < maxPhotoAmount) {file.size 
           const reader = new FileReader();
           reader.readAsDataURL(file); // конвертирует Blob в base64 и вызывает onload
           reader.onload = function() {
