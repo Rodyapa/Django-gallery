@@ -97,7 +97,7 @@ window.ExchangeHubV1 = {
     function startSDKWithFile(file) {
         if (!file) return;
         const maxSize = sizeLimits.image ?? 40 * 1024 * 1024;
-        if (validImageTypes.includes(file.type) && <= maxSize && ExchangeHubV1.onUploadFiles.length < maxPhotoAmount) {file.size 
+        if (validImageTypes.includes(file.type) && file.size <= maxSize && ExchangeHubV1.onUploadFiles.length < maxPhotoAmount) { 
           const reader = new FileReader();
           reader.readAsDataURL(file); // конвертирует Blob в base64 и вызывает onload
           reader.onload = function() {
