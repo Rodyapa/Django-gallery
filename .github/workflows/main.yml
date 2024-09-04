@@ -101,6 +101,15 @@ jobs:
           port: 22
           source: "docker-compose.production.yml"
           target: "django-gallery"
+      - name: Copy system_tools via ssh
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          source: "system_tools"
+          target: "django-gallery"
 
       - name: Executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
