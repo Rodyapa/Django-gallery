@@ -2,8 +2,13 @@ from pathlib import Path
 
 from django.conf import settings
 
+"""
+Core Utilities.
+"""
+
 
 def get_generated_secret_key():
+    # TODO Need to debug this utility. It does not used now.
     file_path = Path(settings.BASE_DIR) / 'created_config' / 'secret.txt'
     if not file_path.exists():
         raise FileNotFoundError(f"The file at {file_path} does not exist.")

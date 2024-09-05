@@ -12,6 +12,10 @@ from PIL import ExifTags
 from PIL import Image as PilImage
 from PIL import ImageDraw, ImageFont
 
+"""
+Utils for Image isntances.
+"""
+
 
 def get_exif_orientation(image):
     """Retrieve the EXIF orientation value from the image."""
@@ -39,6 +43,7 @@ def apply_exif_orientation(pil_image):
 
 
 def resize_uploaded_image(image, max_width=1920, max_height=1080):
+    """Utility to compress photo on save."""
     size = (max_width, max_height)
     # Uploaded file is in memory
     if isinstance(image, InMemoryUploadedFile):
@@ -74,6 +79,7 @@ def resize_uploaded_image(image, max_width=1920, max_height=1080):
 
 
 def add_watermark(image):
+    """Utility to add watermark on the photo on save."""
     # First. Open Image.
     if isinstance(image, InMemoryUploadedFile):
         # read as byte stream
@@ -121,6 +127,7 @@ def add_watermark(image):
 
 
 def build_watermark_layer(pil_image):
+    """Used by add_watermark function."""
     w, h = pil_image.size
     x = int(w - (w / 30))
     y = int(h - (w / 30))

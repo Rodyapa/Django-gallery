@@ -2,7 +2,7 @@ from .models import ContactLink
 
 
 def contacts(request):
-    '''Pass customly defined contact links.'''
+    '''Get customly defined contact links.'''
     custom_links = ContactLink.objects.filter(
         is_active=True
     )

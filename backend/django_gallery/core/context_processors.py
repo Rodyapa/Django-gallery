@@ -1,5 +1,10 @@
 from django.conf import settings
 
+"""
+Get instances of links and titles
+to be rendered on every page.
+"""
+
 
 def site_appearance(request):
     site_appearance = {

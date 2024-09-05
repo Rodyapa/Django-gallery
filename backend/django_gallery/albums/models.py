@@ -128,6 +128,8 @@ class Album(models.Model):
 
 
 class SimpleAlbum(Album):
+    '''Proxy Model describing Simple Album object.
+       Does not make any additional database table'''
     class Meta:
         proxy = True
         verbose_name_plural = "Albums Simple"
@@ -135,6 +137,8 @@ class SimpleAlbum(Album):
 
 
 class SubcategoryDividedAlbum(Album):
+    '''Proxy Model describing Subcategory Album object.
+       Does not make any additional database table'''
     class Meta:
         proxy = True
         verbose_name_plural = "Albums (Subcategory divided)"
@@ -142,6 +146,8 @@ class SubcategoryDividedAlbum(Album):
 
 
 class YearDividedAlbum(Album):
+    '''Proxy Model describing Year Album object.
+       Does not make any additional database table'''
     class Meta:
         proxy = True
         verbose_name_plural = "Albums (Year divided)"
@@ -149,6 +155,7 @@ class YearDividedAlbum(Album):
 
 
 class AlbumTemplate(models.Model):
+    '''Model describing album Template object.'''
     TEMPLATE_NAMES = {
         "year_sorted": _("year sorted"),
         "subdivided": _("subdivided")
@@ -164,6 +171,7 @@ class AlbumTemplate(models.Model):
 
 
 class AlbumSubcategory(models.Model):
+    '''Model describing album Subcategory object.'''
     title = models.CharField(
         max_length=MAX_CHAR_FIELD,
         verbose_name=_("Subcategory's title"),
@@ -192,6 +200,8 @@ class AlbumSubcategory(models.Model):
         verbose_name_plural = 'Album Subcategories'
 
     def save(self, *args, **kwargs):
+        # When adding a subcategory,
+        # the last order value in the album is used.
         new_order = self.get_latest_order_field()
         new_order = (new_order or 0) + 1
         self.order = new_order

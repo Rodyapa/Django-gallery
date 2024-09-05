@@ -4,7 +4,8 @@ from django.utils.html import html_safe
 
 @html_safe
 class JSModulePath:
-    '''Implement html path to script with type="module".'''
+    '''Implement html path to script with type="module".
+       This made for Media classes of ModelAdmin classes.'''
     def __init__(self, path):
         self.path = path
 
@@ -13,6 +14,7 @@ class JSModulePath:
 
 
 class MultipleImageInput(forms.ClearableFileInput):
+    """Field for dropzone on album admin change pages."""
     allow_multiple_selected = True
     template_name = 'django/forms/widgets/photo_dropzone.html'
 
@@ -25,6 +27,7 @@ class MultipleImageInput(forms.ClearableFileInput):
 
 
 class MultipleImageField(forms.FileField):
+    """Field for multiple file uplaod on album admin change pages."""
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("widget", MultipleImageInput(
         ))

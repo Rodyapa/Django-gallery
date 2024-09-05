@@ -3,6 +3,7 @@ from django.utils.translation import gettext as _
 from django_gallery.constants import SHORT_CHAR
 
 
+# TODO it does not used now.
 class ContactLink(models.Model):
     '''Model for links that will be displayed on contact page.'''
     link = models.URLField(

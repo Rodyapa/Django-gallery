@@ -4,6 +4,8 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.core.management.utils import get_random_secret_key
 
+# TODO Need to implement this idea in the settings file.
+
 
 class Command(BaseCommand):
     '''Create Initial Secret Key.

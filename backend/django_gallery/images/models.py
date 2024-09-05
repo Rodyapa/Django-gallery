@@ -11,6 +11,7 @@ from .utils import add_watermark, resize_uploaded_image
 
 
 class Photo(SortableMixin):
+    '''Model describing album Photo object.'''
     title = models.CharField(
         verbose_name=_("Title of Photo"),
         max_length=MAX_CHAR_FIELD,

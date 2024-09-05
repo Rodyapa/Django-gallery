@@ -8,6 +8,8 @@ from images.models import Photo
 
 
 class AlbumView(View):
+    """View for User side album instances."""
+
     def get(self, request, album_slug):
         album = get_object_or_404(Album, slug=album_slug)
         if album.template:
@@ -21,6 +23,8 @@ class AlbumView(View):
         return render(request, template, context=context)
 
     def get_template(self, template_name=None):
+        """Get template for the album."""
+
         templates_folder_relative_path = 'albums'
         if template_name is not None:
             return (templates_folder_relative_path +
@@ -28,6 +32,8 @@ class AlbumView(View):
         return 'albums/album.html'
 
     def get_photos(self, album, template_name):
+        """Get photos related to the album"""
+
         photos = (Photo.objects
                   .filter(album=album, is_published=True)
                   .order_by('order'))

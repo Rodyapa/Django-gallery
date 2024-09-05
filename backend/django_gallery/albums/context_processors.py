@@ -1,5 +1,10 @@
 from albums.models import Album, Section
-from albums.utils import find_all_child_sections_and_their_albums
+from albums.utils import get_all_child_sections_and_their_albums
+
+"""
+Get instances of sections and best albums
+to be rendered in the main nav menu on every page.
+"""
 
 
 def sections(request):
@@ -8,7 +13,7 @@ def sections(request):
     )
     sections = dict()
     for highest_section in highest_sections:
-        sections[highest_section] = find_all_child_sections_and_their_albums(
+        sections[highest_section] = get_all_child_sections_and_their_albums(
             highest_section)
     return {'sections': sections}
 
