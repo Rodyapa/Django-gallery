@@ -45,5 +45,6 @@ jobs:
         password: ${{ secrets.DOCUMENTATION_SSH_PASSWORD }}
         port: 22
         script: |
+          ls 
           scp -r backend/docs/_build/html/ ${{ secrets.DOCUMENTATION_HOST_USER }}@${{ secrets.DOCUMENTATION_HOST }}:~/projects-documentations/django-gallery/
 
