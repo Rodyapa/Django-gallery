@@ -4,7 +4,9 @@ from django import forms
 
 
 class AlbumForm(forms.ModelForm):
-    """Album form with additional dropzone field."""
+    """
+    Album form with additional dropzone field.
+    """
     upload_photos = MultipleImageField()
 
     class Meta:

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Site Appearance &#8212; Django-gallery 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=c058f7c8" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=d45e8c67"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="backup-mechanism.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="site-appearance">
+<h1>Site Appearance<a class="headerlink" href="#site-appearance" title="Link to this heading">¶</a></h1>
+<p>Currently, users can only change the site title, which is set when the project is started.
+See the <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> for more details.</p>
+<p>To change the site design, such as the photos used on the index page,
+you need to manually replace the JPEG images in the static/dis folder and modify index.html. This part of customization will be improved in future versions.</p>
+<section id="navbar-sections-management">
+<h2>Navbar Sections Management<a class="headerlink" href="#navbar-sections-management" title="Link to this heading">¶</a></h2>
+<p>The navbar is a dynamically rendered part of the site. It always contains links to the index page and the contact page. Between these two links, custom user sections and albums are located. Users can add sections on the “Sections” page in the admin zone.</p>
+<p>A section can be marked as a “highest section.” In this case, it will appear at the top level of the navigation menu. A section can also have a parent section; in this case, it will be located in a dropdown list under the parent section.</p>
+<p>If a section is marked as the highest section, it cannot have any parent sections.</p>
+<p>Sections can also have albums associated with them. Therefore, a dropdown list for a section can contain other sections or links to albums.</p>
+<p>Sections also can have albums related to them. Therefore, dropdown list of a section
+can have another sections or links to an albums.</p>
+</section>
+<section id="contact-links">
+<h2>Contact Links<a class="headerlink" href="#contact-links" title="Link to this heading">¶</a></h2>
+<p>Currently, the links on the contact page are set by required constants. In the future, users will be able to add links via the admin zone.</p>
+</section>
+<section id="album-management">
+<h2>Album management<a class="headerlink" href="#album-management" title="Link to this heading">¶</a></h2>
+<p>Users can create three types of albums:</p>
+<ol class="arabic simple">
+<li><p><strong>Simple Album</strong></p></li>
+<li><p><strong>Subcategory Divided Album</strong></p></li>
+<li><p><strong>Year Divided Album</strong></p></li>
+</ol>
+<dl class="simple">
+<dt>All albums share the following common properties:</dt><dd><ul class="simple">
+<li><p>Title: Displayed in the navbar and at the top of the album page.</p></li>
+<li><p>Description: Displayed below the title if “Show Description” is selected.</p></li>
+<li><p>Is on Main Page: If this checkbox is selected, the album will appear at the first level of the navigation menu.</p></li>
+<li><p>Section: The album will be listed in the dropdown menu of the selected section.</p></li>
+<li><p>Template: Defines which category the current album belongs to. The template can be changed at any time.</p></li>
+</ul>
+</dd>
+</dl>
+<p>On each album’s admin page, you can upload photos using the dropzone field.</p>
+<p>WARNING: You need to save the album before uploading photos with the dropzone.</p>
+<section id="simple-album">
+<h3>Simple Album<a class="headerlink" href="#simple-album" title="Link to this heading">¶</a></h3>
+<p>Simple Albums allow users to upload photos and change their positions using
+drag-and-drop functionality.</p>
+</section>
+<section id="subcategory-album">
+<h3>Subcategory Album<a class="headerlink" href="#subcategory-album" title="Link to this heading">¶</a></h3>
+<p>Subcategory Albums allow users to associate photos with specific subcategories (which can be created on the Album Subcategories admin page).
+Photos on the album’s frontend page will be grouped under subcategory titles. Subcategory titles can contain Russian and English letters, hyphens, spaces, and underscores.</p>
+</section>
+<section id="year-divided-album">
+<h3>Year Divided Album<a class="headerlink" href="#year-divided-album" title="Link to this heading">¶</a></h3>
+<p>Year Divided Albums allow users to organize photos by year. The year should be a 4-digit number. The year-divided album page automatically creates a dropzone with the value of the current year. If no photo is added in this zone, the current year will not be displayed on the frontend. Users can add more years.</p>
+<p>Photos on the frontend page are sorted from the most recent year to the oldest and are grouped under a year header.</p>
+<p>Photo Management.
+Photo management is available on the “Photos” admin page.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Django-gallery</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Site Appearance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#navbar-sections-management">Navbar Sections Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contact-links">Contact Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#album-management">Album management</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="backup-mechanism.html" title="next chapter">&lt;no title&gt;</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Rodion Padakov.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/site_management.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

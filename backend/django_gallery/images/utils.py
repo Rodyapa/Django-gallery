@@ -187,9 +187,10 @@ def build_watermark_layer(pil_image):
     # Creates an object that can be used to draw in the given image.
     d = ImageDraw.Draw(txt)
     # Draw text in the image(on new empty image)
+    watermark_text = settings.WATERMARK_TEXT
     d.text(
         (x, y),
-        "photo-restoration.ru",
+        watermark_text,
         fill=font_color,
         font=font,
         anchor="rs"

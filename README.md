@@ -31,8 +31,8 @@ The project is designed for people who want to create their own photo gallery an
   - Add easy navigation through albums divided into subcategories.
 
 ## Example of actual implementations.
-  - photo-restoration. - https//photo-restoration.risetime.ru
-  - full access presentaion example  ---
+  - photo-restoration. - https://photo-restoration.risetime.ru
+  - full access presentaion example  - https://django-gallery-test-site.resiteime.ru
 
 ### Style guide 
 Python: PEP8

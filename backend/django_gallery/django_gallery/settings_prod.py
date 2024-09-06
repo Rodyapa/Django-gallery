@@ -164,5 +164,10 @@ COPYRIGHT = os.getenv('COPYRIGHT', None)
 
 CSRF_COOKIE_SECURE = True
 hosting_domain = str(os.getenv('HOSTING_DOMAIN'))
-trusted_origin = os.getenv('TRUSTED_ORIGIN', ('https://' + hosting_domain))
-CSRF_TRUSTED_ORIGINS = [trusted_origin, ]
+hosting_adress = str(os.getenv('HOSTING_IP'))
+trusted_domain = os.getenv('TRUSTED_DOMAIN', ('https://' + hosting_domain))
+trusted_adress = os.getenv('TRUSTED_ADRESS', ('https://' + hosting_domain))
+CSRF_TRUSTED_ORIGINS = [trusted_domain, trusted_adress ]
+
+# WATERMARK
+WATERMARK_TEXT = os.getenv('WATERMARK_TEXT')
