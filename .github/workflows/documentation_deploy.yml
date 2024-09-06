@@ -46,4 +46,5 @@ jobs:
         port: 22
         source: "html/"
         target:  ~/projects-documentations/django-gallery/
+        strip_components: 1
 
