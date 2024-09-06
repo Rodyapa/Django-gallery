@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Site Appearance
 ===============
 
@@ -63,3 +64,28 @@ Photos on the frontend page are sorted from the most recent year to the oldest a
 
 Photo Management.
 Photo management is available on the "Photos" admin page.
+=======
+Site management
+===============
+
+
+Site Appearance
+---------------
+Navbar sections management
+-------------------------
+
+Contact Links
+-------------
+
+Album management
+----------------
+
+Simple Album
+~~~~~~~~~~~~
+Subcategory Album
+~~~~~~~~~~~~~~~~~
+Year Divided Album
+~~~~~~~~~~~~~~~~~~
+
+
+>>>>>>> c63fc74ebe8cc8702902a94986c0f5a468e1ac5f

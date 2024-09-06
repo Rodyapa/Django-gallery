@@ -7,7 +7,10 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 import os
 import sys
+<<<<<<< HEAD
 
+=======
+>>>>>>> c63fc74ebe8cc8702902a94986c0f5a468e1ac5f
 sys.path.insert(0, os.path.abspath('../'))
 django_settings = 'django_gallery.settings_prod'
 project = 'Django-gallery'
@@ -27,6 +30,10 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c63fc74ebe8cc8702902a94986c0f5a468e1ac5f
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 

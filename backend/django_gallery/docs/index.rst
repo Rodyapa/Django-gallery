@@ -9,9 +9,15 @@ Django-gallery
 Welcome to Django-gallery documentation. Django-gallery is 
 Django-gallery is a project implementing the idea of a photo gallery site using the Django framework.
 
+<<<<<<< HEAD
 Installation options are described in the :doc:`installation` section
 
 Dependecies are described in the :doc:`dependencies` section.
+=======
+Installation options are described in the :doc:`Project Installation` section
+
+Dependecies are described in the :doc:`Dependencies` section.
+>>>>>>> c63fc74ebe8cc8702902a94986c0f5a468e1ac5f
 
 Main Features:
 --------------
@@ -28,6 +34,7 @@ User's Guide
 .. toctree::
    :maxdepth: 2
 
+<<<<<<< HEAD
    installation
    site_management
    backup-mechanism
@@ -44,3 +51,21 @@ User's Guide
       dependencies
       license
       changes
+=======
+   Installation
+
+   Site management
+
+   Backup-mechanism
+
+Description of the code logic
+-----------------------------
+
+Additional Notes
+----------------
+.. toctree::
+   :maxdepth: 2
+   Dependencies
+   license
+   changes
+>>>>>>> c63fc74ebe8cc8702902a94986c0f5a468e1ac5f
