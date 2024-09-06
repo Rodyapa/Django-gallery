@@ -36,12 +36,14 @@ jobs:
       run: |
         cd ./backend/docs/_build/html/
         ls -la  # List all files to ensure the output directory is correct
-    - name: Copy documentation files via ssh
-      uses: appleboy/scp-action@master
+
+    - name: Copy files using custom SCP command
+      uses: appleboy/ssh-action@master
       with: 
         host: ${{ secrets.DOCUMENTATION_HOST }}
         username: ${{ secrets.DOCUMENTATION_HOST_USER }}
-        password: ${{ secrets.DOCUMENTATION_SSH_PASSWORD }}
+        key: ${{ secrets.DOCUMENTATION_SSH_KEY }}
         port: 22
-        source: "backend/docs/_build/html/**"
-        target: "~/projects-documentations/django-gallery/"
+        script: |
+          scp -r ./backend/docs/_build/html/* ${{ secrets.DOCUMENTATION_HOST_USER }}@${{ secrets.DOCUMENTATION_HOST }}:~/projects-documentations/django-gallery/
+
