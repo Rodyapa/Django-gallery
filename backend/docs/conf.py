@@ -8,8 +8,6 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../'))
-django_settings = 'django_gallery.settings_prod'
 project = 'Django-gallery'
 copyright = '2024, Rodion Padakov'
 author = 'Rodion Padakov'
