@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD
 Installation
 ============
 Pre-requirements
@@ -93,7 +92,3 @@ Required configuration
 19. **DROPBOX_APP_SECRET** - Secret for your Dropbox app.
 20. **DROPBOX_ACCESS_TOKEN** - Access token for your app. For now, you need to generate it manually.
 21. **WATERMARK_TEXT** - Text that will be used for automatic watermarking on your photos.
-=======
-Required configuration
-Docker installation
->>>>>>> c63fc74ebe8cc8702902a94986c0f5a468e1ac5f
