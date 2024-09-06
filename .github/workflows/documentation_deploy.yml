@@ -32,12 +32,12 @@ jobs:
     
     - name: Checkout repo
       uses: actions/checkout@v3
-    - name: Copy documentation files via ssh
-      uses: appleboy/scp-action@master
     - name: Debug - List files after build
       run: |
         cd ./backend/docs/_build/
         ls -la  # List all files to ensure the output directory is correct
+    - name: Copy documentation files via ssh
+      uses: appleboy/scp-action@master
       with: 
         host: ${{ secrets.DOCUMENTATION_HOST }}
         username: ${{ secrets.DOCUMENTATION_HOST_USER }}
