@@ -26,7 +26,7 @@ jobs:
 
     - name: Build documentation
       run: |
-        cd backend/django_gallery/docs/
+        cd docs/
         make html
     
     - name: Checkout repo
