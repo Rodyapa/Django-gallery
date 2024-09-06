@@ -5,9 +5,6 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-import os
-import sys
-
 project = 'Django-gallery'
 copyright = '2024, Rodion Padakov'
 author = 'Rodion Padakov'
