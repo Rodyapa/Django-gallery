@@ -43,5 +43,5 @@ jobs:
         username: ${{ secrets.DOCUMENTATION_HOST_USER }}
         password: ${{ secrets.DOCUMENTATION_SSH_PASSWORD }}
         port: 22
-        source: "./backend/docs/_build/html/"
+        source: "/html/"
         target: "~/projects-documentations/django-gallery/"
