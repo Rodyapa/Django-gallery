@@ -47,4 +47,4 @@ jobs:
         source: "backend/docs/_build/html/"
         target:  ~/projects-documentations/django-gallery/
         strip_components: 4
-
+        overwrite: true
