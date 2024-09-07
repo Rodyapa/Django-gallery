@@ -2,7 +2,8 @@
 
 
 Django-gallery is a project implementing the idea of a photo gallery site using the Django framework.
-
+## Documentation
+Documentation available [here](https://django-gallery.ru/index.html).
 ## Description of the project:
 The project is designed for people who want to create their own photo gallery and share their photos or other pictures.
 
