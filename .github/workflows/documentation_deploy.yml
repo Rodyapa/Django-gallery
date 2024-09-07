@@ -57,4 +57,4 @@ jobs:
         password: ${{ secrets.DOCUMENTATION_SSH_PASSWORD }}
         port: 22
         script: |
-          sudo mv /tmp/docs/* ${{ secrets.DOCUMENTATION_TARGET_PATH}}
+          echo ${{ secrets.DOCUMENTATION_SSH_PASSWORD }} | sudo -S mv /tmp/docs/* ${{ secrets.DOCUMENTATION_TARGET_PATH}}
