@@ -45,6 +45,6 @@ jobs:
         password: ${{ secrets.DOCUMENTATION_SSH_PASSWORD }}
         port: 22
         source: "backend/docs/_build/html/"
-        target:  ~/projects-documentations/django-gallery/
+        target:  ${{ secrets.DOCUMENTATION_TARGET_PATH}}
         strip_components: 4
         overwrite: true
