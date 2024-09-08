@@ -3,6 +3,15 @@
 from django.db import migrations
 
 
+def create_missing_extra_data(apps, schema_editor):
+    YearDividedAlbum = apps.get_model('albums', 'YearDividedAlbum')
+    YearDividedAlbumExtraData = apps.get_model('albums', 'YearDividedAlbumExtraData')
+
+    albums = YearDividedAlbum.objects.all()
+    for album in albums:
+        YearDividedAlbumExtraData.objects.get_or_create(album=album)
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -15,4 +24,5 @@ class Migration(migrations.Migration):
             old_name='year_divided_album',
             new_name='album',
         ),
+        migrations.RunPython(create_missing_extra_data)
     ]
