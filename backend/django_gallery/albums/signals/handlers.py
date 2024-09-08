@@ -1,7 +1,5 @@
-from albums.models import (AlbumTemplate,
-                           YearDividedAlbum,
+from albums.models import (AlbumTemplate, YearDividedAlbum,
                            YearDividedAlbumExtraData)
-
 from django.db.models.signals import post_migrate, post_save
 from django.dispatch import receiver
 
@@ -15,7 +13,8 @@ def create_default_templates(sender, **kwargs):
 
 
 @receiver(post_save, sender=YearDividedAlbum)
-def create_initial_related_extra_data_record(sender, instance, created, **kwargs):
+def create_initial_related_extra_data_record(sender,
+                                             instance, created, **kwargs):
     """Create related YearDividedAlbumExtraData instance.
        When instance of YearDividedAlbum is created,
        related YearDividedAlbumExtraData should be created too."""

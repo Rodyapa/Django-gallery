@@ -366,7 +366,7 @@ class PhotoYearDividedAlbumInline(PhotoAlbumInlineBase):
 class YearDividedAlbumAdmin(AlbumAdminBase):
     """Class of Year divided Album Admin page."""
     model = YearDividedAlbum
-    inlines = [YearAlbumExtraDataInline, PhotoYearDividedAlbumInline,]
+    inlines = [YearAlbumExtraDataInline, PhotoYearDividedAlbumInline, ]
 
     def get_queryset(self, request):
         qs = super(AlbumAdminBase, self).get_queryset(request)

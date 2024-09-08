@@ -156,7 +156,7 @@ class YearDividedAlbum(Album):
 
 class YearDividedAlbumExtraData(models.Model):
     '''This model create additional data table.
-       It adds additional fields, that only have meaning for 
+       It adds additional fields, that only have meaning for
        Year Divided albums'''
     desc_order = 'desc'
     asc_order = 'asc'
