@@ -154,6 +154,31 @@ class YearDividedAlbum(Album):
         verbose_name = "Album"
 
 
+class YearDividedAlbumExtraData(models.Model):
+    '''This model create additional data table.
+       It adds additional fields, that only have meaning for 
+       Year Divided albums'''
+    desc_order = 'desc'
+    asc_order = 'asc'
+    ORDER_CHOICES = {
+        desc_order: "descending",
+        asc_order: "ascending",
+    }
+    album = models.OneToOneField(
+        YearDividedAlbum,
+        on_delete=models.CASCADE,
+        related_name='extra_data',
+    )
+    year_order = models.CharField(
+        verbose_name=_('year order'),
+        max_length=4,
+        choices=ORDER_CHOICES,
+        help_text=_('Determine the order in which the photos'
+                    'will be displayed on the album page.'),
+        default=desc_order,
+    )
+
+
 class AlbumTemplate(models.Model):
     '''Model describing album Template object.'''
     TEMPLATE_NAMES = {
