@@ -156,3 +156,7 @@ TELEGRAM_LINK = os.getenv('TELEGRAM_LINK', None)
 
 
 COPYRIGHT = os.getenv('COPYRIGHT', None)
+
+
+# WATERMARK
+WATERMARK_TEXT = os.getenv('WATERMARK_TEXT')

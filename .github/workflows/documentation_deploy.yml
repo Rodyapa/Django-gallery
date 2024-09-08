@@ -3,7 +3,11 @@ name: Deploy Documentation
 on:
   push:
     branches:
-      - main  # Change this to your default branch
+      - main
+  pull_request:
+    branches:
+      - main
+    types: [closed] #Only when pull_requests accepted.
 
 jobs:
   build-and-deploy:

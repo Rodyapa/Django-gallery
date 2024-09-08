@@ -3,7 +3,7 @@ from datetime import date
 from admin_site.form_fields import JSModulePath
 from albums.models import (Album, AlbumSubcategory, AlbumTemplate, Section,
                            SimpleAlbum, SubcategoryDividedAlbum,
-                           YearDividedAlbum)
+                           YearDividedAlbum, YearDividedAlbumExtraData)
 from django import forms
 from django.conf import settings
 from django.contrib import admin
@@ -325,6 +325,20 @@ class AlbumSubcategoryAdmin(admin.ModelAdmin):
                 template=subdivided_template_id)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
+#  Year Divided Album Page related Classes
+
+
+class YearAlbumExtraDataInline(admin.StackedInline):
+    """Extra Data for Year Divided Album Inline."""
+    model = YearDividedAlbumExtraData
+    fields = ['year_order', ]
+    extra = 1
+    min_num = 1
+    max_num = 1
+    template = 'admin/albums/edit_inlines/year_album_extradata_inline.html'
+    can_delete = False
+    verbose_name = _("EXTRA SETTINGS")
+
 
 class PhotoYearDividedAlbumInline(PhotoAlbumInlineBase):
     """Photo inline class for Year Divided Album instances."""
@@ -352,7 +366,7 @@ class PhotoYearDividedAlbumInline(PhotoAlbumInlineBase):
 class YearDividedAlbumAdmin(AlbumAdminBase):
     """Class of Year divided Album Admin page."""
     model = YearDividedAlbum
-    inlines = [PhotoYearDividedAlbumInline, ]
+    inlines = [YearAlbumExtraDataInline, PhotoYearDividedAlbumInline, ]
 
     def get_queryset(self, request):
         qs = super(AlbumAdminBase, self).get_queryset(request)
