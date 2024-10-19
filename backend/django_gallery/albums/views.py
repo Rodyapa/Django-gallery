@@ -51,9 +51,10 @@ class AlbumView(View):
                 )
 
                 photos_by_year[year_of_photo].append(photo)
-            order_direction_reverse = (True if album.extra_data.year_order ==
-                                       'desc' else False)
-
+            order_direction_reverse = (
+                True if (album.extra_data.year_order ==
+                         'desc') else False
+            )
             return dict(sorted(
                 photos_by_year.items(), reverse=order_direction_reverse)
             )

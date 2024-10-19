@@ -1,6 +1,6 @@
 from albums.models import (AlbumTemplate, YearDividedAlbum,
                            YearDividedAlbumExtraData)
-from django.db.models.signals import post_migrate, post_save
+from django.db.models.signals import post_delete, post_migrate, post_save
 from django.dispatch import receiver
 
 
@@ -18,17 +18,16 @@ def create_initial_related_extra_data_record(sender,
     """Create related YearDividedAlbumExtraData instance.
        When instance of YearDividedAlbum is created,
        related YearDividedAlbumExtraData should be created too."""
-    if created:
-        try:
-            YearDividedAlbumExtraData.objects.get_or_create(album=instance)
-            print(f"Successfully created YearDividedAlbumExtraData "
-                  f"for album: {instance.id}")
-        except Exception as e:
-            print(f"Error creating YearDividedAlbumExtraData "
-                  f"for album: {instance.id}. Error: {str(e)}")
+    try:
+        YearDividedAlbumExtraData.objects.get_or_create(album=instance)
+        print(f"Successfully created YearDividedAlbumExtraData "
+              f"for album: {instance.id}")
+    except Exception as e:
+        print(f"Error creating YearDividedAlbumExtraData "
+              f"for album: {instance.id}. Error: {str(e)}")
 
 
-@receiver(post_save, sender=YearDividedAlbum)
+@receiver(post_delete, sender=YearDividedAlbum)
 def delete_related_extra_data_record(sender, instance, created, **kwargs):
     """
     Delete related YearDividedAlbumExtraData instance.
