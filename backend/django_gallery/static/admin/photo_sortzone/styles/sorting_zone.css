@@ -18,12 +18,12 @@ th img.image-preview {
     flex-direction: row;
 }
 .photo-card {
-    width: 200px;
+    width: 10%;
     height: auto;
     min-height: 200px;
-    padding: 1em;
-    margin: 1em;
-    border-radius: 30px;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 10px;
     position: relative;
     background: var(--breadcrumbs-bg);
     transition: 0.5s;
