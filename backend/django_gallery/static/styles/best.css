@@ -13,6 +13,12 @@ h4 {
     padding: 0;
   }
   
+.first_best {
+    display: flex;
+    flex-wrap: wrap; /* Allow images to wrap */
+    justify-content: center; /* Align images to the left */
+}
+
 .first_best img {
     border: 2px solid rgb(126, 126, 126); /* Рамка вокруг фотографии */
     padding: 10px; /* Расстояние от картинки до рамки */
