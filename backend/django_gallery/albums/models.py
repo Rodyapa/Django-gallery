@@ -227,9 +227,10 @@ class AlbumSubcategory(models.Model):
     def save(self, *args, **kwargs):
         # When adding a subcategory,
         # the last order value in the album is used.
-        new_order = self.get_latest_order_field()
-        new_order = (new_order or 0) + 1
-        self.order = new_order
+        if not self.pk:
+            new_order = self.get_latest_order_field()
+            new_order = (new_order or 0) + 1
+            self.order = new_order
         super(AlbumSubcategory, self).save(*args, **kwargs)
 
     def get_latest_order_field(self, *args, **kwargs):
