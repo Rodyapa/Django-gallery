@@ -37,6 +37,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - static:/staticfiles/
-      - media:/django_gallery/media/
+      - media:/app/django_gallery/media/
     ports:
       - 8000:80

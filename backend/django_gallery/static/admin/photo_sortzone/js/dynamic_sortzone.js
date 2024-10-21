@@ -9,6 +9,16 @@ export let dragElement = window.photoSortingZone['dragElement'];
 document.addEventListener("DOMContentLoaded", () => {
     sorting_zone = document.querySelector('.sorting-zone');
     const photoCards = document.querySelectorAll('.photo-card');
+    const form = document.querySelector('#album_form');
+    const submitButton = form.querySelector(
+        'input[type=submit], button[type=submit]'
+    );
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form from submitting
+        SetOrderValuesForPhotoCards();
+        form.submit();
+    });
 
     photoCards.forEach(card => {
         card.addEventListener('dragover', function(e) {
@@ -44,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 });
 
-function sortPhotoCards(dragged_card, target_card, arrayOfCards) {
+function sortPhotoCards(dragged_card, target_card) {
     let targetCardGoesDown;
     //check if card in the has same parent element.
     if (dragged_card.parentElement == target_card.parentElement) {
@@ -58,36 +68,10 @@ function sortPhotoCards(dragged_card, target_card, arrayOfCards) {
         }
         
         if (targetCardGoesDown) {
-            let cardsBetween = getCardsBetween(dragged_card, target_card);
-            cardsBetween.forEach(card => {
-                let orderIDField = getCardOrderField(card);
-                orderIDField.value = (parseInt(orderIDField.value) - 1).toString();
-                console.log(orderIDField.value);
-            });
-            let dragged_card_order_field = getCardOrderField(dragged_card);
-            dragged_card_order_field.value = ((parseInt(dragged_card_order_field.value)+cardsBetween.length)).toString();
             target_card.after(dragged_card);
         } else {
-            let cardsBetween = getCardsBetween(target_card, dragged_card);
-            cardsBetween.forEach(card => {
-                let orderIDField = getCardOrderField(card);
-                orderIDField.value = (parseInt(orderIDField.value) + 1).toString();
-            });
-            let dragged_card_order_field = getCardOrderField(dragged_card);
-            dragged_card_order_field.value = ((parseInt(dragged_card_order_field.value)-cardsBetween.length)).toString();
             parentElementOfCards.insertBefore(dragged_card, target_card);
         }
-
-        const swapOrderIDs = ((dragged_card, target_card) => {
-            let dragged_card_order_field= getCardOrderField(dragged_card);
-            let target_card_order_field = getCardOrderField(target_card);
-            let temp = dragged_card_order_field.value;
-            dragged_card_order_field.value = target_card_order_field.value;
-            target_card_order_field.value = temp;
-
-        })(dragged_card, target_card);
-    }
-    else {
     }
 };
 
@@ -107,22 +91,6 @@ function getCardOrderField(card) {
     return getMostNestedElement(card.querySelector(".field-order"))
 };
 
-
-function getCardsBetween(startCard, endCard) {
-    const parentElement = startCard.parentElement;
-
-    let cardsBetween = [];
-    let sibling = startCard.nextSibling;
-
-    while (sibling !== endCard) {
-        if (sibling.tagName && sibling.tagName.toLowerCase() === 'div') {
-            cardsBetween.push(sibling);
-        }
-        sibling = sibling.nextSibling;
-    }
-
-    return cardsBetween;
-};
 
 
 /**
@@ -187,5 +155,14 @@ export function cascadeOrderChange(photoCard) {
                 currentCardOrderField.value = parseInt(currentCardOrderValue) - 1;
             }
         }
+    })
+}
+
+function SetOrderValuesForPhotoCards() {
+    const photoCards = document.querySelectorAll('.photo-card');
+    let order_value = 1;
+    photoCards.forEach(photoCard => {
+        let order_field = getCardOrderField(photoCard);
+        order_field.value = order_value++
     })
 }
