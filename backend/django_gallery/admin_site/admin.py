@@ -92,7 +92,6 @@ class PhotoAlbumInlineBase(admin.options.InlineModelAdmin):
     template = 'admin/albums/edit_inlines/photo_mosaic.html'
     extra = 0
     fields = [
-        "title",
         "image_preview",
         "is_published",
         "order",
@@ -242,7 +241,6 @@ class SimpleAlbumAdmin(AlbumAdminBase):
 class PhotoSubcategoryDividedAlbumInline(PhotoAlbumInlineBase):
     """Photo inline class for Subcategory Divided Album instances."""
     fields = [
-        "title",
         "image_preview",
         "is_published",
         "subcategory",
@@ -343,7 +341,6 @@ class YearAlbumExtraDataInline(admin.StackedInline):
 class PhotoYearDividedAlbumInline(PhotoAlbumInlineBase):
     """Photo inline class for Year Divided Album instances."""
     fields = [
-        "title",
         "image_preview",
         "is_published",
         "date",
