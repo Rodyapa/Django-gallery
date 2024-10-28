@@ -46,6 +46,7 @@ window.ExchangeHubV1 = {
           removeImageFromonUploadFiles(id_to_delete);
         } else {
           let files = await getFilesFromBrowseMenu();
+          files.sort((a, b) => a.lastModified - b.lastModified);
           uploadFiles(files);
         }
         ShowHideTextInstruction();
@@ -64,7 +65,8 @@ window.ExchangeHubV1 = {
     };
 
     function handleDrop(event) {
-        let files= event.dataTransfer.files
+        let files= Array.from(event.dataTransfer.files);
+        files.sort((a, b) => a.lastModified - b.lastModified);
         uploadFiles(files)
     };
 
@@ -80,48 +82,58 @@ window.ExchangeHubV1 = {
   
           // Handle file selection asynchronously
           inputElement.onchange = () => {
-              resolve(inputElement.files);
+            resolve(Array.from(inputElement.files));
           };
       });
   };
 
-    function uploadFiles(files) {
+    async function uploadFiles(files) {
         for (const file of files) {
             if (error) {
             break
             }
-            startSDKWithFile(file);
+            await startSDKWithFile(file);
         }
     };
 
     function startSDKWithFile(file) {
-        if (!file) return;
-        const maxSize = sizeLimits.image ?? 40 * 1024 * 1024;
-        if (validImageTypes.includes(file.type) && file.size <= maxSize && ExchangeHubV1.onUploadFiles.length < maxPhotoAmount) { 
-          const reader = new FileReader();
-          reader.readAsDataURL(file); // конвертирует Blob в base64 и вызывает onload
-          reader.onload = function() {
-            let file_id = ++lastUsedId
-            let fileIdTuple = {'id':file_id, 'file':file}
-            ExchangeHubV1.onUploadFiles.push(fileIdTuple);
-            makeUploadedFilePreview(reader.result, lastUsedId);
-          };
-        } else if (!error) {
-          let invalidInputError;
-          if (!validImageTypes.includes(file.type)){
-            invalidInputError = 'invalid image type. Please make sure your image format is one of the following: "image/png", "image/jpeg", "image/jpg"'}
-          else if (file.size > maxSize) {
-            invalidInputError = 'your image file is too large'}
-          else if (ExchangeHubV1.onUploadFiles.length >= maxPhotoAmount) {
-            invalidInputError = (`You can not download more than ${maxPhotoAmount} photos at once`)
-          };
-    
-          error = document.createElement('p');
-          error.classList.add('error')
-          error.innerHTML = invalidInputError
-          dropzone_text_instruction?.before(error);
-        }
-      };
+      return new Promise((resolve) => {
+          if (!file) return resolve();
+          
+          const maxSize = sizeLimits.image ?? 40 * 1024 * 1024;
+          
+          if (validImageTypes.includes(file.type) && file.size <= maxSize && ExchangeHubV1.onUploadFiles.length < maxPhotoAmount) { 
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              
+              reader.onload = function() {
+                  let file_id = ++lastUsedId;
+                  let fileIdTuple = { id: file_id, file: file };
+                  
+                  ExchangeHubV1.onUploadFiles.push(fileIdTuple);
+                  makeUploadedFilePreview(reader.result, lastUsedId);
+                  
+                  resolve(); // Resolves once the file is processed
+              };
+          } else if (!error) {
+              let invalidInputError;
+              if (!validImageTypes.includes(file.type)) {
+                  invalidInputError = 'Invalid image type. Please make sure your image format is one of the following: "image/png", "image/jpeg", "image/jpg"';
+              } else if (file.size > maxSize) {
+                  invalidInputError = 'Your image file is too large';
+              } else if (ExchangeHubV1.onUploadFiles.length >= maxPhotoAmount) {
+                  invalidInputError = `You cannot upload more than ${maxPhotoAmount} photos at once`;
+              }
+              
+              error = document.createElement('p');
+              error.classList.add('error');
+              error.innerHTML = invalidInputError;
+              dropzone_text_instruction?.before(error);
+              
+              resolve(); // Resolve even on error to continue processing other files
+          }
+      });
+    }
 
     function createListOfonUploadFiles() {
         if (!listOfonUploadFiles) {
