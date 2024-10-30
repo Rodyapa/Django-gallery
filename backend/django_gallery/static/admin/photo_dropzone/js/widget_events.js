@@ -20,7 +20,7 @@ window.ExchangeHubV1 = {
     const sizeLimits = {
       image: 20 * 1024 * 1024,
     };
-    const maxPhotoAmount = 30;
+    const maxPhotoAmount = 300;
     const validImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
 
